@@ -9,15 +9,16 @@ app.get('/', function(req, res) {
 });
 
 
-//----------- SL STORNING
-var realtidoptions = {
+//----------- SL OPTIONS
+var sloptionsrealtid = {
 	host: 'api.sl.se',
 	path: '/api2/realtimedepartures.json?key=' + config.sl.realtidtoken + '&siteid=9204&timewindow=60',
 	method: 'GET'
 };
 
-var getstorning = function(callback) {
-	var req = xhttp.request(realtidoptions, function(res) {
+//----------- get stuff
+var getstuff = function(options, callback) {
+	var req = xhttp.request(options, function(res) {
 		res.setEncoding('utf-8');
 
 		var responseString = '';
@@ -26,7 +27,6 @@ var getstorning = function(callback) {
 		});
 
 		res.on('end', function() {
-			console.log(responseString);
 			var responseObject = JSON.parse(responseString);
 			callback(responseObject);
 		});
@@ -38,10 +38,6 @@ var getstorning = function(callback) {
 	req.end();
 };
 
-getstorning(function(data) {
-	console.log(data);
-});
-
 //----------- IO
 io.on('connection', function(socket) {
 	console.log('new connection');
@@ -50,6 +46,19 @@ io.on('connection', function(socket) {
 	});
 });
 
+//-----------
+var stuff = function(){
+	getstuff(sloptionsrealtid, function(data) {
+		console.log(data.ResponseData.Metros);
+		io.emit('sl', data.ResponseData.Metros)
+	});
+};
+
+var SECONDS_BETWEEN_REFRESH = 60;
+setInterval(stuff, 1000 * SECONDS_BETWEEN_REFRESH);
+stuff();
+
+//---------
 http.listen(3000, function(){
 	console.log('listening on *:3000');
 });
