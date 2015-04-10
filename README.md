@@ -1,1 +1,0 @@
-Launch with "meteor --settings settings.json"
