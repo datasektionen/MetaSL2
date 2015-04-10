@@ -45,8 +45,9 @@ io.on('connection', function(socket) {
 //-----------
 var stuff = function(){
 	getstuff(sloptionsrealtid, function(data) {
-		console.log(data.ResponseData.Metros);
-		io.emit('slmetro', data.ResponseData.Metros)
+		io.emit('slmetro', data.ResponseData.Metros);
+		io.emit('slbus', data.ResponseData.Buses);
+		io.emit('sltram', data.ResponseData.Trams);
 	});
 };
 
