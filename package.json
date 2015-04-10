@@ -1,0 +1,8 @@
+{
+  "name": "MetaSL2",
+  "version": "0.0.1",
+  "description": "...",
+  "dependencies": {
+    "express": "^4.12.3"
+  }
+}
