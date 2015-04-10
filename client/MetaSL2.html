@@ -6,5 +6,19 @@
 </body>
 
 <template name="metro">
-  <h1>Metro</h1>
+	<div class="metro">
+		<div class="main">
+			{{# each fruangen }}
+				{{> slide}}
+			{{/ each}}
+			{{# each morby }}
+				{{> slide}}
+			{{/ each}}
+		</div>
+	</div>
+</template>
+
+<template name="slide">
+	<h2>{{stress DisplayTime}}</h2>
+	<p>{{ Destination }} {{ DisplayTime }} {{ PlatformMessage }}</p>
 </template>
