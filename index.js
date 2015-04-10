@@ -3,11 +3,7 @@ var app = require('express')();
 var http = require('http').Server(app);
 var xhttp = require('http');
 var io = require('socket.io')(http);
-
-app.get('/', function(req, res) {
-	res.sendFile(__dirname + '/index.html');
-});
-
+require('./routes')(app);
 
 //----------- SL OPTIONS
 var sloptionsrealtid = {
@@ -50,7 +46,7 @@ io.on('connection', function(socket) {
 var stuff = function(){
 	getstuff(sloptionsrealtid, function(data) {
 		console.log(data.ResponseData.Metros);
-		io.emit('sl', data.ResponseData.Metros)
+		io.emit('slmetro', data.ResponseData.Metros)
 	});
 };
 
