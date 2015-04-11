@@ -16,7 +16,7 @@
         } else {
           for (i = 1; i < group.length; i++) {
             text += group[i].LineNumber + ' ' + group[i].Destination + ' ' + group[i].DisplayTime;
-            if ((i + 1) !== group.length) { text+=' ✱ ✱ ✱ '; }
+            if ((i + 1) !== group.length) { text+=' <span class="symbols">✱ ✱ ✱</span> '; }
           };
         }
         callback(text);
@@ -80,6 +80,7 @@
       }
       div#groupone {
         margin-bottom: 100px;
+        position: 
       }
 
       div#grouptwo {
@@ -106,28 +107,67 @@
         padding-right: 10px;
       }
 
-      div.skylttext.bottom>marquee>span.symbols {
+      div.skylttext.bottom>div>span.symbols {
         font-size: 50px;
         vertical-align: middle;
         padding: 0 50px;
       }
 
-      div.skylttext.bottom>marquee {
+      div.skylttext.bottom>div {
         position: relative;
         top: -20px;
       }
 
+      div.marquee {
+        overflow: hidden;
+        position: relative;
+        width: 100%;
+      }
+
+      div.marquee>div {
+        display: block;
+        width: 250%;
+        
+        /*position: absolute;*/
+        overflow-y: hidden;
+
+        -webkit-animation: marquee 20s linear infinite;
+        -moz-animation: marquee 20s linear infinite;
+        -ms-animation: marquee 20s linear infinite;
+        -o-animation: marquee 20s linear infinite;
+        animation: marquee 20s linear infinite;
+      }
+      @-webkit-keyframes marquee {
+        0% { left: 100%; }
+        100% { left: -250%; }
+      }
+      @-moz-keyframes marquee {
+          0% { left: 100%; }
+          100% { left: -250%; }
+      }
+      @-ms-keyframes marquee {
+          0% { left: 100%; }
+          100% { left: -250%; }
+      }
+      @-o-keyframes marquee {
+          0% { left: 100%; }
+          100% { left: -250%; }
+      }
+      @keyframes marquee {
+          0% { left: 100%; }
+          100% { left: -250%; }
+      }
     </style>
   </head>
   <body>
     <div id="tunnelbana">
       <div id="groupone" class="skylt">
         <div class="top skylttext"><p id="g1tcontent"><span class='dest'>14 Hello World</span> <span class='time'>13 min</span></p></div>
-        <div class="bottom skylttext"><marquee id="g1bcontent" behavior='scroll' scrollamount='10'>13 Hej Världen 42min <span class='symbols'>✱✱✱</span> 14 Hello World 1337 min</marquee></div>
+        <div class="marquee bottom skylttext"><div class="marquee" id="g1bcontent" behavior='scroll' scrollamount='10'>13 Hej Världen 42min <span class='symbols'>✱✱✱</span> 14 Hello World 1337 min</div></div>
       </div>
       <div id="grouptwo" class="skylt">
         <div class="top skylttext"><p id="g2tcontent"><span class='dest'>14 Hello World</span> <span class='time'>13 min</span></p></div>
-        <div class="bottom skylttext"><marquee id="g2bcontent" behavior='scroll' scrollamount='10'>13 Hej Världen 42min <span class='symbols'>✱✱✱</span> 14 Hello World 1337 min</marquee></div>
+        <div class="marquee bottom skylttext"><div id="g2bcontent" behavior='scroll' scrollamount='10'>13 Hej Världen 42min <span class='symbols'>✱✱✱</span> 14 Hello World 1337 min</div></div>
       </div>
     </div>
   </body>
