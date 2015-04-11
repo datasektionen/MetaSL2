@@ -3,15 +3,132 @@
   <head>
     <title> Metasl2.0 </title>
     <script src='/socket.io/socket.io.js'></script>
-    <script src='http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js'></script>
+    <!--.<script src='http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js'></script>-->
     <script>
+      var getTopText = function(group, callback) {
+        var text = '<span class="dest">' + group[0].LineNumber + ' ' +  group[0].Destination + '</span><span class="time">' + group[0].DisplayTime + '</span>';
+        callback(text); 
+      }
+      var getBottomText = function(group, callback) {
+        var text = '';
+        if (group.length === 1) {
+          text = group[0].PlatformMessage;
+        } else {
+          for (i = 1; i < group.length; i++) {
+            text += group[i].LineNumber + ' ' + group[i].Destination + ' ' + group[i].DisplayTime;
+            if ((i + 1) !== group.length) { text+=' ✱ ✱ ✱ '; }
+          };
+        }
+        callback(text);
+      }
+
+
       var socket = io();
-      socket.on('slmetro', function(data) {
-        console.log(data);
+      var groupone = [];
+      var grouptwo = [];
+      socket.on('slmetro', function(metros) {
+        console.log(metros);
+        //Parse out the data.
+        var groupone = [];
+        var grouptwo = [];
+        for (i = 0; i < metros.length; i++) {
+          console.log(metros[i].Destination + ' ' + metros[i].DisplayTime);
+
+          if (metros[i].DepartureGroupId === 1) { //Mot Mörby Centrum
+            groupone.push(metros[i]);
+          } else { //Mot T-centralen
+            grouptwo.push(metros[i]);
+          }
+        }
+        //Now update the displays.
+        getTopText(groupone, function(text) {
+          document.getElementById("g1tcontent").innerHTML = text;
+        });
+        getTopText(grouptwo, function(text) {
+          document.getElementById("g2tcontent").innerHTML = text;
+        });
+        getBottomText(groupone, function(text) {
+          document.getElementById("g1bcontent").innerHTML = text;
+        });
+        getBottomText(groupone, function(text) {
+          document.getElementById("g2bcontent").innerHTML = text;
+        });
       });
     </script>
+    <style type="text/css">
+      * {
+        font-family: helvetica;
+        margin: 0;
+        padding: 0;
+        border: none;
+      }
+
+      html {
+        background: url(/public/background.png);
+      }
+
+      div#tunnelbana {
+        margin: 5% auto;
+        width: 80%;
+      }
+      div.skylt {
+        background-color: black;
+        border: solid;
+        border-width: 20px;
+        border-color: #E2007F;
+        height: 250px;
+      }
+      div#groupone {
+        margin-bottom: 100px;
+      }
+
+      div#grouptwo {
+        margin-top: 100px;
+      }
+
+      div.skylttext {
+        height: 125px;
+      }
+
+      div.skylttext>* {
+        color: yellow;
+        font-size: 120px;
+        vertical-align: middle;
+      }
+
+      div.skylttext.top>p>span.dest {
+        float: left;
+        padding-left: 10px;
+      }
+
+      div.skylttext.top>p>span.time {
+        float: right;
+        padding-right: 10px;
+      }
+
+      div.skylttext.bottom>marquee>span.symbols {
+        font-size: 50px;
+        vertical-align: middle;
+        padding: 0 50px;
+      }
+
+      div.skylttext.bottom>marquee {
+        position: relative;
+        top: -20px;
+      }
+
+    </style>
   </head>
   <body>
-    <h1> hello world </h1>
+    <div id="tunnelbana">
+      <div id="groupone" class="skylt">
+        <div class="top skylttext"><p id="g1tcontent"><span class='dest'>14 Hello World</span> <span class='time'>13 min</span></p></div>
+        <div class="bottom skylttext"><marquee id="g1bcontent" behavior='scroll' scrollamount='10'>13 Hej Världen 42min <span class='symbols'>✱✱✱</span> 14 Hello World 1337 min</marquee></div>
+      </div>
+      <div id="grouptwo" class="skylt">
+        <div class="top skylttext"><p id="g2tcontent"><span class='dest'>14 Hello World</span> <span class='time'>13 min</span></p></div>
+        <div class="bottom skylttext"><marquee id="g2bcontent" behavior='scroll' scrollamount='10'>13 Hej Världen 42min <span class='symbols'>✱✱✱</span> 14 Hello World 1337 min</marquee></div>
+      </div>
+    </div>
   </body>
 </html>

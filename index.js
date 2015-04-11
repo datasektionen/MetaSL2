@@ -1,9 +1,14 @@
 var config = require('./config');
-var app = require('express')();
-var http = require('http').Server(app);
-var xhttp = require('http');
-var io = require('socket.io')(http);
+var express = require('express');
+var app = express();
+var server= require('http').Server(app);
+var http = require('http');
+var io = require('socket.io')(server);
+var path = require('path');
 require('./routes')(app);
+
+//----------- public folder
+app.use('/public', express.static(path.join(__dirname + '/public')));
 
 //----------- SL OPTIONS
 var sloptionsrealtid = {
@@ -14,7 +19,7 @@ var sloptionsrealtid = {
 
 //----------- get stuff
 var getstuff = function(options, callback) {
-	var req = xhttp.request(options, function(res) {
+	var req = http.request(options, function(res) {
 		res.setEncoding('utf-8');
 
 		var responseString = '';
@@ -34,9 +39,16 @@ var getstuff = function(options, callback) {
 	req.end();
 };
 
+//-----------
+var sldata = {}
 //----------- IO
 io.on('connection', function(socket) {
 	console.log('new connection');
+	if (sldata.ResponseData) { //On upstart there will be no data here.
+		socket.emit('slmetro', sldata.ResponseData.Metros);
+		socket.emit('slbus', sldata.ResponseData.Buses);
+		socket.emit('sltram', sldata.ResponseData.Trams);
+	};
 	socket.on('disconnect', function() {
 		console.log('connection closed');
 	});
@@ -45,9 +57,10 @@ io.on('connection', function(socket) {
 //-----------
 var stuff = function(){
 	getstuff(sloptionsrealtid, function(data) {
-		io.emit('slmetro', data.ResponseData.Metros);
-		io.emit('slbus', data.ResponseData.Buses);
-		io.emit('sltram', data.ResponseData.Trams);
+		sldata = data;
+		io.emit('slmetro', sldata.ResponseData.Metros);
+		io.emit('slbus', sldata.ResponseData.Buses);
+		io.emit('sltram', sldata.ResponseData.Trams);
 	});
 };
 
@@ -56,6 +69,6 @@ setInterval(stuff, 1000 * SECONDS_BETWEEN_REFRESH);
 stuff();
 
 //---------
-http.listen(3000, function(){
+server.listen(3000, function(){
 	console.log('listening on *:3000');
 });
