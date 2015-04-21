@@ -5,13 +5,116 @@
     <script src='/socket.io/socket.io.js'></script>
     <script src='http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js'></script>
     <script>
+    //<div class='bus'><p><span class='busnr'>4</span><span class='bus'>Gullmarsplan</span><span class='bustime'>1min</span></p></div>
       var socket = io();
-      socket.on('slbus', function(data) {
-        console.log(data);
+      socket.on('slbus', function(buses) {
+        console.log(buses);
+        var fourhtml = '<h3> 4:an </h3>';
+        var otherhtml = '<h3> Others </h3>';
+        var totfourbus = 0;
+        var tototherbus = 0;
+        for (i = 0; i < buses.length; i++) {
+          if (buses[i].LineNumber == 4 && totfourbus < 10) {
+            totfourbus++;
+            fourhtml += "<div class='bus'><p><span class='busnr'>4</span><span class='bus'>" + buses[i].Destination + "</span><span class='bustime'>" + buses[i].DisplayTime + "</span></p></div>";
+          } else if (buses[i].LineNumber < 100 && tototherbus < 10) {
+            tototherbus++;
+            otherhtml += "<div class='bus'><p><span class='busnr'>" + buses[i].LineNumber + "</span><span class='bus'>" + buses[i].Destination + "</span><span class='bustime'>" + buses[i].DisplayTime + "</span></p></div>";
+          } else {
+            //buss långt bort.
+          }
+        }
+        //now replace the data shown.
+        console.log(fourhtml)
+        document.getElementById("bus4").innerHTML = fourhtml;
+        document.getElementById("busother").innerHTML = otherhtml;
       });
     </script>
+    <style type="text/css"> 
+    * {
+      font-family: helvetica;
+    }
+
+    html {
+        background: url(/public/background.png);
+    }
+
+    body {
+      width: 1600px;
+      height: 1080px;
+      margin: 5% auto;
+    }
+
+    div#buses {
+      width: 1600px;
+    }
+
+    div.buslist {
+      display: inline-block;
+      margin: 0px 50px;
+      background-color: white;
+      width: 690px;
+    }
+
+    h3 {
+      font-size: 50px;
+      padding: 10px;
+      margin: 0px;
+      background-color: red;
+      color: white;
+      text-align: center;
+    }
+
+    div.bus {
+      padding: 0px 30px;
+      height: 50px;
+    }
+
+    p {
+      margin: 5px 0px;
+    }
+
+    p>span {
+      font-size: 40px;
+      color: black;
+    }
+
+    span.bustime {
+      float: right;
+    }
+
+    span.busnr {
+      width: 80px;
+      display: inline-block;
+    }
+
+    </style>
   </head>
   <body>
-    <h1> hello world </h1>
+    <div id='buses'>
+      <div id='bus4' class='buslist'>
+        <h3> 4:an </h3>
+        <div class='bus'><p><span class='busnr'>4</span><span class='bus'>Gullmarsplan</span><span class='bustime'>1min</span></p></div>
+        <div class='bus'><p><span class='busnr'>4</span><span class='bus'>Gullmarsplan</span><span class='bustime'>1min</span></p></div>
+        <div class='bus'><p><span class='busnr'>4</span><span class='bus'>Gullmarsplan</span><span class='bustime'>1min</span></p></div>
+        <div class='bus'><p><span class='busnr'>4</span><span class='bus'>Gullmarsplan</span><span class='bustime'>1min</span></p></div>
+        <div class='bus'><p><span class='busnr'>4</span><span class='bus'>Gullmarsplan</span><span class='bustime'>1min</span></p></div>
+        <div class='bus'><p><span class='busnr'>4</span><span class='bus'>Gullmarsplan</span><span class='bustime'>1min</span></p></div>
+        <div class='bus'><p><span class='busnr'>4</span><span class='bus'>Gullmarsplan</span><span class='bustime'>1min</span></p></div>
+        <div class='bus'><p><span class='busnr'>4</span><span class='bus'>Gullmarsplan</span><span class='bustime'>1min</span></p></div>
+      </div>
+      <div id='busother' class='buslist'>
+        <h3> Other </h3>
+        <div class='bus'><p><span class='busnr'>4</span><span class='bus'>Gullmarsplan</span><span class='bustime'>1min</span></p></div>
+        <div class='bus'><p><span class='busnr'>4</span><span class='bus'>Gullmarsplan</span><span class='bustime'>1min</span></p></div>
+        <div class='bus'><p><span class='busnr'>4</span><span class='bus'>Gullmarsplan</span><span class='bustime'>1min</span></p></div>
+        <div class='bus'><p><span class='busnr'>4</span><span class='bus'>Gullmarsplan</span><span class='bustime'>1min</span></p></div>
+        <div class='bus'><p><span class='busnr'>4</span><span class='bus'>Gullmarsplan</span><span class='bustime'>1min</span></p></div>
+        <div class='bus'><p><span class='busnr'>4</span><span class='bus'>Gullmarsplan</span><span class='bustime'>1min</span></p></div>
+        <div class='bus'><p><span class='busnr'>4</span><span class='bus'>Gullmarsplan</span><span class='bustime'>1min</span></p></div>
+        <div class='bus'><p><span class='busnr'>4</span><span class='bus'>Gullmarsplan</span><span class='bustime'>1min</span></p></div>
+      </div>
+    </div>
+    <p>Data provided by <a href='http://trafiklab.se'>trafiklab</a></p>
   </body>
 </html>
