@@ -73,6 +73,6 @@ setInterval(stuff, 1000 * SECONDS_BETWEEN_REFRESH);
 stuff();
 
 //---------
-server.listen(3000, function(){
-	console.log('listening on *:3000');
+server.listen(config.port, function(){
+	console.log('listening on *:' + config.port);
 });
