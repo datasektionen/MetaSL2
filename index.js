@@ -28,8 +28,12 @@ var getstuff = function(options, callback) {
 		});
 
 		res.on('end', function() {
-			var responseObject = JSON.parse(responseString);
-			callback(responseObject);
+			if (responseString) {
+				try {
+					var responseObject = JSON.parse(responseString);
+					callback(responseObject);
+				} catch(e) {}
+			}			
 		});
 
 		res.on('error', function(e) {
