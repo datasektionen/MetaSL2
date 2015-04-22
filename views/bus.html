@@ -3,7 +3,6 @@
   <head>
     <title> Metasl2.0 </title>
     <script src='/socket.io/socket.io.js'></script>
-    <script src='http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js'></script>
     <script>
     //<div class='bus'><p><span class='busnr'>4</span><span class='bus'>Gullmarsplan</span><span class='bustime'>1min</span></p></div>
       var socket = io();
@@ -14,10 +13,11 @@
         var totfourbus = 0;
         var tototherbus = 0;
         for (i = 0; i < buses.length; i++) {
-          if (buses[i].LineNumber == 4 && totfourbus < 10) {
+          //4 and the night bus 94
+          if (buses[i].LineNumber == 4 || buses[i].LineNumber == 94 && totfourbus < 10) {
             totfourbus++;
             fourhtml += "<div class='bus'><p><span class='busnr'>4</span><span class='bus'>" + buses[i].Destination + "</span><span class='bustime'>" + buses[i].DisplayTime + "</span></p></div>";
-          } else if (buses[i].LineNumber < 100 && tototherbus < 10) {
+          } else if (buses[i].LineNumber < 100 && buses[i].LineNumber != 4 && buses[i].LineNumber != 94 && tototherbus < 10) {
             tototherbus++;
             otherhtml += "<div class='bus'><p><span class='busnr'>" + buses[i].LineNumber + "</span><span class='bus'>" + buses[i].Destination + "</span><span class='bustime'>" + buses[i].DisplayTime + "</span></p></div>";
           } else {
