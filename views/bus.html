@@ -16,7 +16,7 @@
           //4 and the night bus 94
           if ((buses[i].LineNumber == 4 || buses[i].LineNumber == 94) && totfourbus < 10) {
             totfourbus++;
-            fourhtml += "<div class='bus'><p><span class='busnr'>4</span><span class='bus'>" + buses[i].Destination + "</span><span class='bustime'>" + buses[i].DisplayTime + "</span></p></div>";
+            fourhtml += "<div class='bus'><p><span class='busnr'>" + buses[i].LineNumber + "</span><span class='bus'>" + buses[i].Destination + "</span><span class='bustime'>" + buses[i].DisplayTime + "</span></p></div>";
           } else if (buses[i].LineNumber < 100 && buses[i].LineNumber != 4 && buses[i].LineNumber != 94 && tototherbus < 10) {
             tototherbus++;
             otherhtml += "<div class='bus'><p><span class='busnr'>" + buses[i].LineNumber + "</span><span class='bus'>" + buses[i].Destination + "</span><span class='bustime'>" + buses[i].DisplayTime + "</span></p></div>";
