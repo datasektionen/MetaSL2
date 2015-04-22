@@ -14,7 +14,7 @@
         var tototherbus = 0;
         for (i = 0; i < buses.length; i++) {
           //4 and the night bus 94
-          if (buses[i].LineNumber == 4 || buses[i].LineNumber == 94 && totfourbus < 10) {
+          if ((buses[i].LineNumber == 4 || buses[i].LineNumber == 94) && totfourbus < 10) {
             totfourbus++;
             fourhtml += "<div class='bus'><p><span class='busnr'>4</span><span class='bus'>" + buses[i].Destination + "</span><span class='bustime'>" + buses[i].DisplayTime + "</span></p></div>";
           } else if (buses[i].LineNumber < 100 && buses[i].LineNumber != 4 && buses[i].LineNumber != 94 && tototherbus < 10) {
