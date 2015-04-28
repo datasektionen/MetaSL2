@@ -47,14 +47,14 @@ var getstuff = function(options, callback) {
 var sldata = {}
 //----------- IO
 io.on('connection', function(socket) {
-	console.log('new connection');
+	console.log('New connection, we have ' + io.engine.clientsCount + " connected users");
 	if (sldata.ResponseData) { //On upstart there will be no data here.
 		socket.emit('slmetro', sldata.ResponseData.Metros);
 		socket.emit('slbus', sldata.ResponseData.Buses);
 		socket.emit('sltram', sldata.ResponseData.Trams);
 	};
 	socket.on('disconnect', function() {
-		console.log('connection closed');
+		console.log('connection closed, we have ' + io.engine.clientsCount + " connected users");
 	});
 });
 
