@@ -13,7 +13,7 @@ app.use('/public', express.static(path.join(__dirname + '/public')));
 //----------- SL OPTIONS
 var sloptionsrealtid = {
 	host: 'api.sl.se',
-	path: '/api2/realtimedepartures.json?key=' + config.sl.realtidtoken + '&siteid=9204&timewindow=60',
+	path: '/api2/realtimedepartures.json?key=' + config.sl.realtidtoken + '&siteid=' + config.siteid + '&timewindow=60',
 	method: 'GET'
 };
 
@@ -32,7 +32,7 @@ var getstuff = function(options, callback) {
 				try {
 					var responseObject = JSON.parse(responseString);
 					callback(responseObject);
-				} catch(e) {}
+				} catch(e) { console.log("error: " + e)}
 			}			
 		});
 
@@ -68,8 +68,7 @@ var stuff = function(){
 	});
 };
 
-var SECONDS_BETWEEN_REFRESH = 60;
-setInterval(stuff, 1000 * SECONDS_BETWEEN_REFRESH);
+setInterval(stuff, 1000 * config.refreshrate); //Rereshrate is in seconds.
 stuff();
 
 //---------
