@@ -3,6 +3,8 @@
   <head>
     <title> Metasl2.0 </title>
     <script src='/socket.io/socket.io.js'></script>
+    <script src='/public/js/clock.js'></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="/public/css/clock.css" />
     <script>
       var socket = io();
       socket.on('sltram', function(trams) {
@@ -80,6 +82,7 @@
       <div><p><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></p></div>
       <div><p><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></p></div>
     </div>
+    <div id='clock'></div>
     <p> Data provided by <a href="http://trafiklab.se">trafiklab</a></p>
   </body>
 </html>

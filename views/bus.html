@@ -3,6 +3,8 @@
   <head>
     <title> Metasl2.0 </title>
     <script src='/socket.io/socket.io.js'></script>
+    <script src='/public/js/clock.js'></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="/public/css/clock.css" />
     <script>
     //<div class='bus'><p><span class='busnr'>4</span><span class='bus'>Gullmarsplan</span><span class='bustime'>1min</span></p></div>
       var socket = io();
@@ -121,5 +123,6 @@
       </div>
     </div>
     <p>Data provided by <a href='http://trafiklab.se'>trafiklab</a></p>
+    <div id='clock'></div>
   </body>
 </html>

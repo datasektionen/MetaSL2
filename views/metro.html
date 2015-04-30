@@ -3,6 +3,8 @@
   <head>
     <title> Metasl2.0 </title>
     <script src='/socket.io/socket.io.js'></script>
+    <script src='/public/js/clock.js'></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="/public/css/clock.css" />
     <script>
       var getTopText = function(group, callback) {
         var text = '<span class="dest">' + group[0].LineNumber + ' ' +  group[0].Destination + '</span><span class="time">' + group[0].DisplayTime + '</span>';
@@ -170,5 +172,6 @@
       </div>
       <p> Data provided by <a href="http://trafiklab.se">trafiklab</a></p>
     </div>
+    <div id='clock'></div>
   </body>
 </html>
