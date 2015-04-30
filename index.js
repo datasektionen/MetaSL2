@@ -17,8 +17,17 @@ var sloptionsrealtid = {
 	method: 'GET'
 };
 
+//----------- stats
+var stats = {
+	latesttime:"",
+	requests:0,
+	failedrequests:0,
+	nrofclients:0,
+};
+
 //----------- get stuff
 var getstuff = function(options, callback) {
+	stats.requests++;
 	var req = http.request(options, function(res) {
 		res.setEncoding('utf-8');
 
@@ -32,11 +41,15 @@ var getstuff = function(options, callback) {
 				try {
 					var responseObject = JSON.parse(responseString);
 					callback(responseObject);
-				} catch(e) { console.log("error: " + e)}
+				} catch(e) { 
+					console.log("error: " + e);
+					stats.failedrequests++;
+				}
 			}			
 		});
 
 		res.on('error', function(e) {
+			stats.failedrequests++;
 			console.log(e);
 		});
 	});
@@ -44,17 +57,19 @@ var getstuff = function(options, callback) {
 };
 
 //-----------
-var sldata = {}
+var sldata = {};
+
 //----------- IO
 io.on('connection', function(socket) {
-	console.log('New connection, we have ' + io.engine.clientsCount + " connected users");
+	stats.nrofclients = io.engine.clientsCount;	
 	if (sldata.ResponseData) { //On upstart there will be no data here.
 		socket.emit('slmetro', sldata.ResponseData.Metros);
 		socket.emit('slbus', sldata.ResponseData.Buses);
 		socket.emit('sltram', sldata.ResponseData.Trams);
+		socket.emit('stats', stats);
 	};
 	socket.on('disconnect', function() {
-		console.log('connection closed, we have ' + io.engine.clientsCount + " connected users");
+		stats.nrofclients = io.engine.clientsCount;
 	});
 });
 
@@ -62,9 +77,14 @@ io.on('connection', function(socket) {
 var stuff = function(){
 	getstuff(sloptionsrealtid, function(data) {
 		sldata = data;
+		//Update the latest succesfull requests time.
+		if (sldata.ResponseData && sldata.ResponseData.LatestUpdate) {
+			stats.latesttime = sldata.ResponseData.LatestUpdate;
+		}
 		io.emit('slmetro', sldata.ResponseData.Metros);
 		io.emit('slbus', sldata.ResponseData.Buses);
 		io.emit('sltram', sldata.ResponseData.Trams);
+		io.emit('stats', stats);
 	});
 };
 

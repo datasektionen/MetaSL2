@@ -3,14 +3,27 @@
   <head>
     <title> Metasl2.0 </title>
     <script src='/socket.io/socket.io.js'></script>
+    <script src='/public/js/fullclock.js'></script>
     <script>
       var socket = io();
-      socket.on('sl', function(data) {
-        console.log(data);
+      socket.on('stats', function(stats) {
+        document.getElementById('requests').innerHTML = stats.requests;
+        document.getElementById('failed').innerHTML = stats.failedrequests;
+        document.getElementById('time').innerHTML = stats.latesttime;
+        document.getElementById('nrofclients').innerHTML = stats.nrofclients;
       });
+
     </script>
   </head>
   <body>
-    <h1> hello world </h1>
+    <h1> Metasl status page </h1>
+    <p>This page contains some stats from the server, such as the latest update time. <br>
+      The stats is reset on a server restart. <br>
+      The stats is updated each time a new request is sent from the server to the sl-api.
+    <p>Current time:<span id='fullclock'></span></p>
+    <p>Lastrequest:<span id='time'></span></p>
+    <p>Requests:<span id='requests'></span></p>
+    <p>Number of failed requests:<span id='failed'></span></p>
+    <p>Number of cients:<span id='nrofclients'></span></p>
   </body>
 </html>
