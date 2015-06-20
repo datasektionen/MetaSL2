@@ -15,13 +15,11 @@
           //4 and the night bus 94
           if ((buses[i].LineNumber == 4 || buses[i].LineNumber == 94) && totfourbus < 10) {
             totfourbus++;
-            fourhtml += "<div class='bus'><span class='busnr'>" + buses[i].LineNumber + "</span><span class='bus'>" + buses[i].Destination + "</span><span class='bustime'>" + buses[i].DisplayTime + "</span></div>";
-          } else if (buses[i].LineNumber < 100 && buses[i].LineNumber != 4 && buses[i].LineNumber != 94 && tototherbus < 10) {
+            fourhtml += "<div class='bus'><span class='busnr'>" + buses[i].LineNumber + "</span><span class='dest'>" + buses[i].Destination + "</span><span class='bustime'>" + buses[i].DisplayTime + "</span></div>";
+          } else if (buses[i].LineNumber != 4 && buses[i].LineNumber != 94 && tototherbus < 10) {
             tototherbus++;
-            otherhtml += "<div class='bus'><span class='busnr'>" + buses[i].LineNumber + "</span><span class='bus'>" + buses[i].Destination + "</span><span class='bustime'>" + buses[i].DisplayTime + "</span></div>";
-          } else {
-            //buss långt bort.
-          }
+            otherhtml += "<div class='bus'><span class='busnr'>" + buses[i].LineNumber + "</span><span class='dest'>" + buses[i].Destination + "</span><span class='bustime'>" + buses[i].DisplayTime + "</span></div>";
+          } 
         }
         //now replace the data shown.
         document.getElementById("bus4").innerHTML = fourhtml;
@@ -64,13 +62,22 @@
     }
 
     .buslist>.bus>span.busnr {
-      padding: 0 2%;
+      padding-left: 2%;
+    }
+
+    .buslist>.bus {
+      position: relative;
+    }
+    .buslist>.bus>span.dest {
+      position: absolute;
+      left: 15%;
     }
 
     .buslist>.bus>span.bustime {
       float: right;
       padding-right: 2%;
     }
+
     </style>
   </head>
   <body>
