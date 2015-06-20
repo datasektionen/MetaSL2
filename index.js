@@ -17,11 +17,16 @@ var sloptionsrealtid = {
 	method: 'GET'
 };
 
+var sloptionstrafficinfo = {
+	host: 'api.sl.se',
+	path: '/api2/trafficsituation.json?key=' + config.sl.storningtoken,
+	method: 'GET'
+}
+
 //----------- stats
 var stats = {
 	latesttime:"",
 	requests:0,
-	failedrequests:0,
 	nrofclients:0,
 };
 
@@ -43,13 +48,11 @@ var getstuff = function(options, callback) {
 					callback(responseObject);
 				} catch(e) { 
 					console.log("error: " + e);
-					stats.failedrequests++;
 				}
 			}			
 		});
 
 		res.on('error', function(e) {
-			stats.failedrequests++;
 			console.log(e);
 		});
 	});
@@ -58,6 +61,7 @@ var getstuff = function(options, callback) {
 
 //-----------
 var sldata = {};
+var sltraffic = {};
 
 //----------- IO
 io.on('connection', function(socket) {
@@ -67,14 +71,15 @@ io.on('connection', function(socket) {
 		socket.emit('slbus', sldata.ResponseData.Buses);
 		socket.emit('sltram', sldata.ResponseData.Trams);
 		socket.emit('stats', stats);
+		socket.emit('sltrafficinfo', sltraffic);
 	};
 	socket.on('disconnect', function() {
 		stats.nrofclients = io.engine.clientsCount;
 	});
 });
 
-//-----------
-var stuff = function(){
+//----------- Realtid
+var getRealtime = function(){
 	getstuff(sloptionsrealtid, function(data) {
 		sldata = data;
 		//Update the latest succesfull requests time.
@@ -88,8 +93,18 @@ var stuff = function(){
 	});
 };
 
-setInterval(stuff, 1000 * config.refreshrate); //Rereshrate is in seconds.
-stuff();
+//--------- Trafficinfo
+var getTrafficInfo = function(){
+	getstuff(sloptionstrafficinfo, function(data) {
+		sltraffic = data;
+		io.emit('sltrafficinfo', sldata);
+	});
+}
+
+setInterval(getRealtime, 1000 * config.refreshrate.realtid); //Refreshrate is in seconds.
+setInterval(getTrafficInfo, 1000 * config.refreshrate.storning);
+getRealtime();
+getTrafficInfo();
 
 process.on('uncaughtException', function globalErrorCatch(error, p) {
 	console.error(error);

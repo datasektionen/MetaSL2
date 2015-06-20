@@ -8,7 +8,6 @@
       var socket = io();
       socket.on('stats', function(stats) {
         document.getElementById('requests').innerHTML = stats.requests;
-        document.getElementById('failed').innerHTML = stats.failedrequests;
         document.getElementById('time').innerHTML = stats.latesttime;
         document.getElementById('nrofclients').innerHTML = stats.nrofclients;
       });
@@ -23,7 +22,6 @@
     <p>Current time:<span id='fullclock'></span></p>
     <p>Lastrequest:<span id='time'></span></p>
     <p>Requests:<span id='requests'></span></p>
-    <p>Number of failed requests:<span id='failed'></span></p>
     <p>Number of clients:<span id='nrofclients'></span></p>
   </body>
 </html>
