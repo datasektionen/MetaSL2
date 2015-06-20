@@ -91,6 +91,11 @@ var stuff = function(){
 setInterval(stuff, 1000 * config.refreshrate); //Rereshrate is in seconds.
 stuff();
 
+process.on('uncaughtException', function globalErrorCatch(error, p) {
+	console.error(error);
+	console.error(error.stack);
+});
+
 //---------
 server.listen(config.port, function(){
 	console.log('listening on *:' + config.port);
