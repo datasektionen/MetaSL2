@@ -55,6 +55,17 @@
           document.getElementById("g2bcontent").innerHTML = text;
         });
       });
+
+      socket.on('sltrafficinfo', function(trafficinfo) {
+        console.log(trafficinfo.TrafficTypes);
+        //parse out the data...
+
+        for (i = 0; i < trafficinfo.TrafficTypes.length; i++) {
+          if (trafficinfo.TrafficTypes[i].Type === "metro") {
+            console.log(trafficinfo.TrafficTypes[i]);
+          }
+        }
+      });
     </script>
     <style type="text/css">
       * {
@@ -69,69 +80,61 @@
       }
 
       div#tunnelbana {
-        margin: 5% auto;
-        width: 1600px;
-      }
-      div.skylt {
-        background-color: black;
-        border: solid;
-        border-width: 20px;
-        border-color: #222;
-        height: 260px;
-      }
-      div#groupone {
-        margin-bottom: 100px;
-        position: 
+        margin: 5vw auto;
+        width: 95vw;
       }
 
-      div#grouptwo {
-        margin-top: 100px;
+      div.skylt {
+        background-color: black;
+        height: 28vh;
+        border: solid;
+        border-color: #222;
+        border-width: 1vw;
+        
+      }
+      div#groupone {
+        margin-bottom: 10vh;
       }
 
       div.skylttext {
-        height: 125px;
+        height: 13vh;
       }
 
       div.skylttext>* {
         color: yellow;
-        font-size: 120px;
+        font-size: 12vh;
         vertical-align: middle;
       }
 
       div.skylttext.top>p>span.dest {
         float: left;
-        padding-left: 10px;
+        padding-left: 1vw;
       }
 
       div.skylttext.top>p>span.time {
         float: right;
-        padding-right: 10px;
+        padding-right: 1vw;
       }
 
       div.skylttext.bottom>div>span.symbols {
-        font-size: 50px;
+        font-size: 8vh;
         vertical-align: middle;
-        padding: 0 50px;
-      }
-
-      div.skylttext.bottom>div {
-        position: relative;
-        top: -20px;
+        padding: 0 3vw;
       }
 
       div.marquee {
+        white-space: nowrap;
         overflow: hidden;
         position: relative;
         width: 100%;
+        padding: 1vh 0;
+        top: -1vh;
       }
 
       div.marquee>div {
         display: block;
         width: 250%;
-        
-        /*position: absolute;*/
-        overflow-y: hidden;
-
+        position: absolute;
         -webkit-animation: marquee 30s linear infinite;
         -moz-animation: marquee 30s linear infinite;
         -ms-animation: marquee 30s linear infinite;
@@ -158,6 +161,12 @@
           0% { left: 100%; }
           100% { left: -250%; }
       }
+
+      p#trafiklab {
+        position: fixed;
+        bottom: 0;
+        font-size: 3vh;
+      }
     </style>
   </head>
   <body>
@@ -170,7 +179,8 @@
         <div class="top skylttext"><p id="g2tcontent"><span class='dest'>14 Hello World</span> <span class='time'>13 min</span></p></div>
         <div class="marquee bottom skylttext"><div id="g2bcontent" behavior='scroll' scrollamount='10'>13 Hej Världen 42min <span class='symbols'>✱✱✱</span> 14 Hello World 1337 min</div></div>
       </div>
-      <p> Data provided by <a href="http://trafiklab.se">trafiklab</a></p>
     </div>
+
+    <p id="trafiklab"> Data provided by <a href="http://trafiklab.se">trafiklab</a></p>
   </body>
 </html>

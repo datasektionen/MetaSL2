@@ -96,8 +96,8 @@ var getRealtime = function(){
 //--------- Trafficinfo
 var getTrafficInfo = function(){
 	getstuff(sloptionstrafficinfo, function(data) {
-		sltraffic = data;
-		io.emit('sltrafficinfo', sldata);
+		sltraffic = data.ResponseData;
+		io.emit('sltrafficinfo', sltraffic);
 	});
 }
 
