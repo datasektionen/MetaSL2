@@ -1,7 +1,9 @@
 # MetaSL2
-This project uses data provides by trafiklab.se .
+This project uses sl data provided by [trafiklab](http://trafiklab.se).
 
-instructions:
+##Launch intstruction:
 First install dependencies with "npm install"
-add your api key to the config
+
+Add your api keys to the enviroment variables REALTIDTOKEN and STORNINGTOKEN
+
 Launch with the command "node index.js"
