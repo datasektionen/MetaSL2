@@ -1,14 +1,14 @@
-<!doctype HTML>
+<!DOCTYPE HTML>
 <html>
   <head>
-    <title> Metasl2.0 </title>
+    <title> Metasl2.0 - Tram</title>
     <script src='/socket.io/socket.io.js'></script>
-    <script src='/public/js/clock.js'></script>
-    <link rel="stylesheet" type="text/css" media="screen" href="/public/css/clock.css" />
+    <link rel="stylesheet" href="/public/css/common.css">
+    <link rel="stylesheet" href="/public/css/tram.css">
     <script>
       var socket = io();
       socket.on('sltram', function(trams) {
-        console.log(trams);
+        //console.log(trams);
         var tramhtml = '<h3> Roslagsbanan </h3>'
         for(var i = 0; i < trams.length && i < 10; i++) {
           tramhtml += "<div><p><span class='linenr'>" + trams[i].LineNumber + "</span><span class='dest'>" + trams[i].Destination + "</span> <span class='time'>" + trams[i].DisplayTime + "</span></p></div>";
@@ -16,59 +16,6 @@
         document.getElementById("tram").innerHTML = tramhtml;
       });
     </script>
-    <style>
-      * {
-        font-family: helvetica;
-        margin: 0;
-        padding: 0;
-        border: none;
-      }
-
-      html {
-        background: url(/public/background.png);
-      }
-
-      div#tram {
-        width: 1200px;
-        margin: 2% auto;
-        vertical-align: middle;
-      }
-
-      h3 {
-        font-size: 90px;
-        text-align: center;
-        background-color: #242424;
-        color: #FFE432; /*#F9FAF4;
-        border-bottom: solid 10px #cb4b16;*/
-      }
-
-      div#tram>div {
-        height: 70px;
-        background-color: #0c0c0c;
-        padding: 0px 20px;
-      }
-
-      div#tram>div>p>span {
-        font-size: 60px;
-        color: #FFE432;
-      }
-
-      span.linenr {
-        width: 120px;
-        display: inline-block;
-      }
-
-      span.dest {
-        padding-left: 20px;
-        display: inline-block;
-
-      }
-
-      span.time {
-        display: inline-block;
-        float: right;
-      }
-    </style>
   </head>
   <body>
     <div id='tram'>
@@ -82,7 +29,6 @@
       <div><p><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></p></div>
       <div><p><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></p></div>
     </div>
-    <div id='clock'></div>
-    <p> Data provided by <a href="http://trafiklab.se">trafiklab</a></p>
+    <p id="trafiklab"> Data provided by <a href="http://trafiklab.se">trafiklab</a></p>
   </body>
 </html>

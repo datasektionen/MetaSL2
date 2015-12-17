@@ -1,0 +1,16 @@
+* {
+    font-family: helvetica;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+body {
+    background: url(/public/background.png);
+}
+
+p#trafiklab {
+    position: fixed;
+    bottom: 0;
+    font-size: 3vh;
+}

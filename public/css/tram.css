@@ -1,0 +1,34 @@
+div#tram {
+    width: 1200px;
+    margin: 2% auto;
+    vertical-align: middle;
+}
+
+h3 {
+    font-size: 90px;
+    text-align: center;
+    background-color: #242424;
+    color: #FFE432; /*#F9FAF4;
+    border-bottom: solid 10px #cb4b16;*/
+}
+
+div#tram>div {
+    height: 70px;
+    background-color: #0c0c0c;
+    padding: 0px 20px;
+}
+
+div#tram>div>p>span {
+    font-size: 60px;
+    color: #FFE432;
+}
+
+span.linenr {
+    width: 120px;
+    display: inline-block;
+}
+
+span.dest {
+    padding-left: 20px;
+    display: inline-block;
+}
