@@ -46,3 +46,6 @@
     float: right;
     padding-right: 2%;
 }
+.buslist>.bus:nth-child(odd) {
+    background-color: #FFF0F0;
+}
