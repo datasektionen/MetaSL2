@@ -62,21 +62,21 @@ div.marquee>div {
 }
 @-webkit-keyframes marquee {
     0% { left: 100%; }
-    100% { left: -300%; }
+    100% { left: -400%; }
 }
 @-moz-keyframes marquee {
     0% { left: 100%; }
-    100% { left: -300%; }
+    100% { left: -400%; }
 }
 @-ms-keyframes marquee {
     0% { left: 100%; }
-    100% { left: -300%; }
+    100% { left: -400%; }
 }
 @-o-keyframes marquee {
     0% { left: 100%; }
-    100% { left: -300%; }
+    100% { left: -400%; }
 }
 @keyframes marquee {
     0% { left: 100%; }
-    100% { left: -300%; }
+    100% { left: -400%; }
 }
