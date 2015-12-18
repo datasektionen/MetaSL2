@@ -1,9 +1,13 @@
 # MetaSL2
 This project uses sl data provided by [trafiklab](http://trafiklab.se).
 
-##Launch intstruction:
-First install dependencies with "npm install"
-
-Add your api keys to the enviroment variables REALTIDTOKEN and STORNINGTOKEN
-
-Launch with the command "node index.js"
+##Launch instructions:
+1. Visit [trafiklab](http://trafiklab.se)
+2. Get api keys for [SL Trafikläget 2](https://www.trafiklab.se/api/sl-trafiklaget-2) and [SL Realtidsinformation 3](https://www.trafiklab.se/api/sl-realtidsinformation-3).
+3. Set the enviroment variable ```REALTIDTOKEN``` to the key from ```SL Realtidsinformation 3```.
+4. Set the enviroment variable ```STORNINGTOKEN``` to the key from ```SL Trafikläget 2```.
+5. (Install npm if you do not have it).
+6. Install dependencies with ```npm install```
+7. (Install node if you do not have it).
+8. Type ```node server.js``` to start the application.
+9. Visit [metro](http://localhost:5000/metro), [bus](http://localhost:5000/bus), [tram](http://localhost:5000/tram) or [status page](http://localhost:5000) to see the application working!
