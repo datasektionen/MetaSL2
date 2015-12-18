@@ -1,12 +1,14 @@
-<!doctype HTML>
+<!DOCTYPE HTML>
 <html>
   <head>
-    <title> Metasl2.0 </title>
+    <title> Metasl2.0 - Bus </title>
     <script src='/socket.io/socket.io.js'></script>
+    <link rel="stylesheet" href="/public/css/common.css">
+    <link rel="stylesheet" href="/public/css/bus.css">
     <script>
       var socket = io();
       socket.on('slbus', function(buses) {
-        console.log(buses);
+        //console.log(buses);
         var fourhtml = '<h3> 4:an </h3>';
         var otherhtml = '<h3> Others </h3>';
         var totfourbus = 0;
@@ -26,73 +28,6 @@
         document.getElementById("busother").innerHTML = otherhtml;
       });
     </script>
-    <style type="text/css"> 
-    * {
-      font-family: helvetica;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-        background: url(/public/background.png);
-    }
-
-    #bus4 {
-      float: left;
-    }
-
-    #busother {
-      float: right;
-    }
-
-    .buses {
-      height: 80vh;
-      margin: 10vh auto;
-      width: 95vw;
-    }
-
-    .buslist {
-      width: 47vw;
-      display: inline-block;
-      background-color: white;
-    }
-
-    .buslist>h3 {
-      background-color: red;
-      color: white;
-      text-align: center;
-      padding: 2vh 0;
-      font-size: 7vh;
-    }
-
-    .buslist>.bus>span {
-      font-size: 5vh;
-    }
-
-    .buslist>.bus>span.busnr {
-      padding-left: 2%;
-    }
-
-    .buslist>.bus {
-      position: relative;
-    }
-    .buslist>.bus>span.dest {
-      position: absolute;
-      left: 15%;
-    }
-
-    .buslist>.bus>span.bustime {
-      float: right;
-      padding-right: 2%;
-    }
-
-    p#trafiklab {
-      position: fixed;
-      bottom: 0;
-      font-size: 3vh;
-    }
-
-    </style>
   </head>
   <body>
     <div class='buses'>

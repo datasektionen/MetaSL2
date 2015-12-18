@@ -1,0 +1,51 @@
+#bus4 {
+    float: left;
+}
+
+#busother {
+    float: right;
+}
+
+.buses {
+    height: 80vh;
+    margin: 10vh auto;
+    width: 95vw;
+}
+
+.buslist {
+    width: 47vw;
+    display: inline-block;
+    background-color: white;
+}
+
+.buslist>h3 {
+    background-color: red;
+    color: white;
+    text-align: center;
+    padding: 2vh 0;
+    font-size: 7vh;
+}
+
+.buslist>.bus>span {
+    font-size: 5vh;
+}
+
+.buslist>.bus>span.busnr {
+    padding-left: 2%;
+}
+
+.buslist>.bus {
+    position: relative;
+}
+.buslist>.bus>span.dest {
+    position: absolute;
+    left: 15%;
+}
+
+.buslist>.bus>span.bustime {
+    float: right;
+    padding-right: 2%;
+}
+.buslist>.bus:nth-child(odd) {
+    background-color: #FFF0F0;
+}

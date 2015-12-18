@@ -1,0 +1,82 @@
+div#tunnelbana {
+    margin: 5vw auto;
+    width: 95vw;
+}
+
+div.skylt {
+    background-color: black;
+    height: 28vh;
+    border: solid;
+    border-color: #222;
+    border-width: 1vw;
+
+}
+div#groupone {
+    margin-bottom: 10vh;
+}
+
+div.skylttext {
+    height: 13vh;
+}
+
+div.skylttext>* {
+    color: yellow;
+    font-size: 12vh;
+    vertical-align: middle;
+}
+
+div.skylttext.top>p>span.dest {
+    float: left;
+    padding-left: 1vw;
+}
+
+div.skylttext.top>p>span.time {
+    float: right;
+    padding-right: 1vw;
+}
+
+div.skylttext.bottom>div>span.symbols {
+    font-size: 8vh;
+    vertical-align: middle;
+    padding: 0 3vw;
+}
+
+div.marquee {
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    padding: 1vh 0;
+    top: -1vh;
+}
+
+div.marquee>div {
+    display: block;
+    width: 250%;
+    position: absolute;
+    -webkit-animation: marquee 30s linear infinite;
+    -moz-animation: marquee 30s linear infinite;
+    -ms-animation: marquee 30s linear infinite;
+    -o-animation: marquee 30s linear infinite;
+    animation: marquee 30s linear infinite;
+}
+@-webkit-keyframes marquee {
+    0% { left: 100%; }
+    100% { left: -400%; }
+}
+@-moz-keyframes marquee {
+    0% { left: 100%; }
+    100% { left: -400%; }
+}
+@-ms-keyframes marquee {
+    0% { left: 100%; }
+    100% { left: -400%; }
+}
+@-o-keyframes marquee {
+    0% { left: 100%; }
+    100% { left: -400%; }
+}
+@keyframes marquee {
+    0% { left: 100%; }
+    100% { left: -400%; }
+}

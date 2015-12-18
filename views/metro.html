@@ -1,10 +1,10 @@
-<!doctype HTML>
+<!DOCTYPE HTML>
 <html>
   <head>
-    <title> Metasl2.0 </title>
+    <title> Metasl2.0 - Metro</title>
     <script src='/socket.io/socket.io.js'></script>
-    <script src='/public/js/clock.js'></script>
-    <link rel="stylesheet" type="text/css" media="screen" href="/public/css/clock.css" />
+    <link rel="stylesheet" href="/public/css/common.css">
+    <link rel="stylesheet" href="/public/css/metro.css">
     <script>
       var getTopText = function(group, callback) {
         var text = '<span class="dest">' + group[0].LineNumber + ' ' +  group[0].Destination + '</span><span class="time">' + group[0].DisplayTime + '</span>';
@@ -23,17 +23,16 @@
         callback(text);
       }
 
-
       var socket = io();
       var groupone = [];
       var grouptwo = [];
       socket.on('slmetro', function(metros) {
-        console.log(metros);
+        //console.log(metros);
         //Parse out the data.
         var groupone = [];
         var grouptwo = [];
         for (i = 0; i < metros.length; i++) {
-          console.log(metros[i].Destination + ' ' + metros[i].DisplayTime);
+          //console.log(metros[i].Destination + ' ' + metros[i].DisplayTime);
 
           if (metros[i].DepartureGroupId === 1) { //Mot Mörby Centrum
             groupone.push(metros[i]);
@@ -57,117 +56,16 @@
       });
 
       socket.on('sltrafficinfo', function(trafficinfo) {
-        console.log(trafficinfo.TrafficTypes);
+        //console.log(trafficinfo.TrafficTypes);
         //parse out the data...
 
         for (i = 0; i < trafficinfo.TrafficTypes.length; i++) {
           if (trafficinfo.TrafficTypes[i].Type === "metro") {
-            console.log(trafficinfo.TrafficTypes[i]);
+            //console.log(trafficinfo.TrafficTypes[i]);
           }
         }
       });
     </script>
-    <style type="text/css">
-      * {
-        font-family: helvetica;
-        margin: 0;
-        padding: 0;
-        border: none;
-      }
-
-      html {
-        background: url(/public/background.png);
-      }
-
-      div#tunnelbana {
-        margin: 5vw auto;
-        width: 95vw;
-      }
-
-      div.skylt {
-        background-color: black;
-        height: 28vh;
-        border: solid;
-        border-color: #222;
-        border-width: 1vw;
-        
-      }
-      div#groupone {
-        margin-bottom: 10vh;
-      }
-
-      div.skylttext {
-        height: 13vh;
-      }
-
-      div.skylttext>* {
-        color: yellow;
-        font-size: 12vh;
-        vertical-align: middle;
-      }
-
-      div.skylttext.top>p>span.dest {
-        float: left;
-        padding-left: 1vw;
-      }
-
-      div.skylttext.top>p>span.time {
-        float: right;
-        padding-right: 1vw;
-      }
-
-      div.skylttext.bottom>div>span.symbols {
-        font-size: 8vh;
-        vertical-align: middle;
-        padding: 0 3vw;
-      }
-
-      div.marquee {
-        white-space: nowrap;
-        overflow: hidden;
-        position: relative;
-        width: 100%;
-        padding: 1vh 0;
-        top: -1vh;
-      }
-
-      div.marquee>div {
-        display: block;
-        width: 250%;
-        position: absolute;
-        -webkit-animation: marquee 30s linear infinite;
-        -moz-animation: marquee 30s linear infinite;
-        -ms-animation: marquee 30s linear infinite;
-        -o-animation: marquee 30s linear infinite;
-        animation: marquee 30s linear infinite;
-      }
-      @-webkit-keyframes marquee {
-        0% { left: 100%; }
-        100% { left: -250%; }
-      }
-      @-moz-keyframes marquee {
-          0% { left: 100%; }
-          100% { left: -250%; }
-      }
-      @-ms-keyframes marquee {
-          0% { left: 100%; }
-          100% { left: -250%; }
-      }
-      @-o-keyframes marquee {
-          0% { left: 100%; }
-          100% { left: -250%; }
-      }
-      @keyframes marquee {
-          0% { left: 100%; }
-          100% { left: -250%; }
-      }
-
-      p#trafiklab {
-        position: fixed;
-        bottom: 0;
-        font-size: 3vh;
-      }
-    </style>
   </head>
   <body>
     <div id="tunnelbana">
