@@ -102,9 +102,9 @@ var getTrafficInfo = function(){
 }
 
 setInterval(getRealtime, 1000 * config.refreshrate.realtid); //Refreshrate is in seconds.
-setInterval(getTrafficInfo, 1000 * config.refreshrate.storning);
+//setInterval(getTrafficInfo, 1000 * config.refreshrate.storning);
 getRealtime();
-getTrafficInfo();
+//getTrafficInfo();
 
 process.on('uncaughtException', function globalErrorCatch(error, p) {
 	console.error(error);
