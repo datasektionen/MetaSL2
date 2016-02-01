@@ -30,22 +30,24 @@
     font-size: 5vh;
 }
 
-.buslist>.bus>span.busnr {
-    padding-left: 2%;
-}
-
 .buslist>.bus {
     position: relative;
 }
-.buslist>.bus>span.dest {
-    position: absolute;
-    left: 15%;
+.buslist>.bus>span.busnr {
+    width: 5vw;
+    display: inline-block;
+    padding-right: 1vw;
+    padding-left: 1vw;
 }
 
+.buslist>.bus>span.dest {
+   }
+
 .buslist>.bus>span.bustime {
-    float: right;
-    padding-right: 2%;
+    position: absolute;
+    right: 0;
+    padding-right: 1vw;
 }
 .buslist>.bus:nth-child(odd) {
-    background-color: #FFF0F0;
+    background-color: #FFdddd;
 }
