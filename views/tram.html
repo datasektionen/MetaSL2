@@ -11,7 +11,7 @@
         //console.log(trams);
         var tramhtml = '<h3> Roslagsbanan </h3>'
         for(var i = 0; i < trams.length && i < 10; i++) {
-          tramhtml += "<div><p><span class='linenr'>" + trams[i].LineNumber + "</span><span class='dest'>" + trams[i].Destination + "</span> <span class='time'>" + trams[i].DisplayTime + "</span></p></div>";
+          tramhtml += "<div><span class='linenr'>" + trams[i].LineNumber + "</span><span class='dest'>" + trams[i].Destination + "</span> <span class='time'>" + trams[i].DisplayTime + "</span></div>";
         }
         document.getElementById("tram").innerHTML = tramhtml;
       });
@@ -20,14 +20,14 @@
   <body>
     <div id='tram'>
       <h3> Roslagsbanan </h3>
-      <div><p><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></p></div>
-      <div><p><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></p></div>
-      <div><p><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></p></div>
-      <div><p><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></p></div>
-      <div><p><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></p></div>
-      <div><p><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></p></div>
-      <div><p><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></p></div>
-      <div><p><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></p></div>
+      <div><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></div>
+      <div><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></div>
+      <div><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></div>
+      <div><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></div>
+      <div><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></div>
+      <div><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></div>
+      <div><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></div>
+      <div><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></div>
     </div>
     <p id="trafiklab"> Data provided by <a href="http://trafiklab.se">trafiklab</a></p>
   </body>

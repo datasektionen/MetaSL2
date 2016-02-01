@@ -14,7 +14,7 @@ h3 {
 div#tram>div {
     height: 7.5vh;
     background-color: #0c0c0c;
-    padding: 0px 20px;
+    padding: 0 1vw;
     position: relative; /*for positioning things inside of it */
 }
 
