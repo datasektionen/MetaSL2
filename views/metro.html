@@ -24,6 +24,42 @@
       }
 
       var socket = io();
+      //TODO: Improve the time difference code as it is relient of being in the correct time zone now...
+      var latestfetch = new Date();
+      var updateTime = function() {
+        var current = new Date();
+        var diff = Math.round(((current-latestfetch)/1000)+(60*60));
+        var timeelement = document.getElementById("time");
+        if (timeelement) {
+          if (diff < 10000) {
+            timeelement.innerHTML="Data is <span id='timebehind'>30</span>s old";
+          } else {
+            //The api is malfunctioning tell the user that the time is w
+            timeelement.innerHTML="Api is malfunctioning! No bus and tram data!";
+          }
+          if (diff > 100) {
+            timeelement.style.visibility="visible";
+            timeelement.style.color="red";
+          } else if (diff > 45){
+            timeelement.style.visibility="visible";
+            timeelement.style.color="orange";
+          } else {
+            timeelement.style.visibility="hidden";
+            timeelement.style.color="black";
+          }
+        }
+        var element = document.getElementById("timebehind");
+        if (element) {
+          element.innerHTML = diff;
+        }
+      }
+      socket.on('stats', function(stats) {
+        latestfetch = new Date(stats.latesttime);
+        updateTime();
+      });
+      setInterval(updateTime, 1000);
+
+
       var groupone = [];
       var grouptwo = [];
       socket.on('slmetro', function(metros) {
@@ -73,6 +109,7 @@
         <div class="top skylttext"><p id="g1tcontent"><span class='dest'>14 Hello World</span> <span class='time'>13 min</span></p></div>
         <div class="marquee bottom skylttext"><div class="marquee" id="g1bcontent" behavior='scroll' scrollamount='10'>13 Hej Världen 42min <span class='symbols'>✱✱✱</span> 14 Hello World 1337 min</div></div>
       </div>
+      <div id="time"> Data is <span id="timebehind">30</span>s old</div>
       <div id="grouptwo" class="skylt">
         <div class="top skylttext"><p id="g2tcontent"><span class='dest'>14 Hello World</span> <span class='time'>13 min</span></p></div>
         <div class="marquee bottom skylttext"><div id="g2bcontent" behavior='scroll' scrollamount='10'>13 Hej Världen 42min <span class='symbols'>✱✱✱</span> 14 Hello World 1337 min</div></div>

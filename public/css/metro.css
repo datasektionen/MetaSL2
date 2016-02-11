@@ -12,7 +12,16 @@ div.skylt {
 
 }
 div#groupone {
-    margin-bottom: 10vh;
+    margin-bottom: 3vh;
+}
+
+div#grouptwo {
+    margin-top: 3vh;
+}
+
+div#time {
+    text-align: center;
+    font-size: 8vh;
 }
 
 div.skylttext {
