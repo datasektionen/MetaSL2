@@ -71,7 +71,7 @@ io.on('connection', function(socket) {
 		socket.emit('slbus', sldata.ResponseData.Buses);
 		socket.emit('sltram', sldata.ResponseData.Trams);
 		socket.emit('stats', stats);
-		socket.emit('sltrafficinfo', sltraffic);
+		//socket.emit('sltrafficinfo', sltraffic);
 	};
 	socket.on('disconnect', function() {
 		stats.nrofclients = io.engine.clientsCount;
