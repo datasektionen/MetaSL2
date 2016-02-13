@@ -32,7 +32,7 @@
         var timeelement = document.getElementById("time");
         if (timeelement) {
           if (diff < 10000) {
-            timeelement.innerHTML="Data is <span id='timebehind'>30</span>s old";
+            timeelement.innerHTML="Last update: <span id='timebehind'>30</span>s ago";
           } else {
             //The api is malfunctioning tell the user that the time is w
             timeelement.innerHTML="Api is malfunctioning! No bus and tram data!";
