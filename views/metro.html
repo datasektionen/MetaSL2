@@ -63,14 +63,14 @@
       var groupone = [];
       var grouptwo = [];
       socket.on('slmetro', function(metros) {
-        //console.log(metros);
+        console.log(metros);
         //Parse out the data.
         var groupone = [];
         var grouptwo = [];
         for (i = 0; i < metros.length; i++) {
           //console.log(metros[i].Destination + ' ' + metros[i].DisplayTime);
 
-          if (metros[i].DepartureGroupId === 1) { //Mot Mörby Centrum
+          if (metros[i].JourneyDirection === 1) { //Mot Mörby Centrum
             groupone.push(metros[i]);
           } else { //Mot T-centralen
             grouptwo.push(metros[i]);

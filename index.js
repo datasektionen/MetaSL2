@@ -13,15 +13,9 @@ app.use('/public', express.static(path.join(__dirname + '/public')));
 //----------- SL OPTIONS
 var sloptionsrealtid = {
 	host: 'api.sl.se',
-	path: '/api2/realtimedepartures.json?key=' + config.sl.realtidtoken + '&siteid=' + config.siteid + '&timewindow=60',
+	path: '/api2/realtimedeparturesV4.json?key=' + config.sl.realtidtoken + '&siteid=' + config.siteid + '&timewindow=60',
 	method: 'GET'
 };
-
-var sloptionstrafficinfo = {
-	host: 'api.sl.se',
-	path: '/api2/trafficsituation.json?key=' + config.sl.storningtoken,
-	method: 'GET'
-}
 
 //----------- stats
 var stats = {
@@ -47,7 +41,9 @@ var getstuff = function(options, callback) {
 					var responseObject = JSON.parse(responseString);
 					callback(responseObject);
 				} catch(e) { 
+					console.log("response:" + responseString);
 					console.log("error: " + e);
+					console.log(e.stack);
 				}
 			}			
 		});
@@ -93,18 +89,8 @@ var getRealtime = function(){
 	});
 };
 
-//--------- Trafficinfo
-var getTrafficInfo = function(){
-	getstuff(sloptionstrafficinfo, function(data) {
-		sltraffic = data.ResponseData;
-		io.emit('sltrafficinfo', sltraffic);
-	});
-}
-
 setInterval(getRealtime, 1000 * config.refreshrate.realtid); //Refreshrate is in seconds.
-//setInterval(getTrafficInfo, 1000 * config.refreshrate.storning);
 getRealtime();
-//getTrafficInfo();
 
 process.on('uncaughtException', function globalErrorCatch(error, p) {
 	console.error(error);
