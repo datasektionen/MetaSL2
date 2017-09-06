@@ -1,36 +1,28 @@
 div#tunnelbana {
-    margin: 5vw auto;
-    width: 95vw;
 }
 
 div.skylt {
-    background-color: black;
-    height: 28vh;
-    border: solid;
-    border-color: #222;
-    border-width: 1vw;
-
+    background-color: #222;
+    height: 40vh;
 }
 div#groupone {
-    margin-bottom: 3vh;
 }
 
 div#grouptwo {
-    margin-top: 3vh;
-}
-
-div#time {
-    text-align: center;
-    font-size: 8vh;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 43vh;
 }
 
 div.skylttext {
-    height: 13vh;
+    height: 15vh;
 }
 
 div.skylttext>* {
-    color: yellow;
-    font-size: 12vh;
+    color: #fff;
+    font-size: 13vh;
     vertical-align: middle;
 }
 

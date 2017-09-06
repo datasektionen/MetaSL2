@@ -28,11 +28,13 @@
       var latestfetch = new Date();
       var updateTime = function() {
         var current = new Date();
-        var diff = Math.round(((current-latestfetch)/1000)+(60*60));
+        console.log(latestfetch);
+        console.log(current);
+        var diff = Math.round(((current-latestfetch)/1000));
         var timeelement = document.getElementById("time");
         if (timeelement) {
           if (diff < 10000) {
-            timeelement.innerHTML="Last update: <span id='timebehind'>30</span>s ago";
+            timeelement.innerHTML="Data is <span id='timebehind'>30 seconds</span> old";
           } else {
             //The api is malfunctioning tell the user that the time is w
             timeelement.innerHTML="Api is malfunctioning! No bus and tram data!";
@@ -43,14 +45,22 @@
           } else if (diff > 45){
             timeelement.style.visibility="visible";
             timeelement.style.color="orange";
-          } else {
-            timeelement.style.visibility="hidden";
+          } else if (diff > 0){
+            timeelement.style.visibility="visible";
             timeelement.style.color="black";
           }
         }
         var element = document.getElementById("timebehind");
         if (element) {
-          element.innerHTML = diff;
+          if (diff > 3600) {
+            var h = parseInt(diff / 60 / 60 + 0.5)
+            element.innerHTML = h + ' ' + (h > 1 ? 'hours' : 'hour');
+          } else if (diff > 60) {
+            var h = parseInt(diff / 60 + 0.5)
+            element.innerHTML = h + ' ' + (h > 1 ? 'minutes' : 'minute');
+          } else {
+            element.innerHTML = diff + ' ' + (diff > 1 ? 'seconds' : 'second');
+          }
         }
       }
       socket.on('stats', function(stats) {
@@ -120,7 +130,6 @@
           </div>
         </div>
       </div>
-      <div id="time">Data is <span id="timebehind">30</span>s old</div>
       <div id="grouptwo" class="skylt">
         <div class="top skylttext">
           <p id="g2tcontent">
@@ -138,6 +147,7 @@
       </div>
     </div>
 
-    <p id="trafiklab">Data provided by <a href="http://trafiklab.se">trafiklab</a></p>
+    <p id="trafiklab">Data provided by <a href="http://trafiklab.se">Trafiklab</a></p>
+    <div id="time">Data is <span id="timebehind">30</span>s old</div>
   </body>
 </html>

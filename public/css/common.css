@@ -1,16 +1,32 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
 * {
-    font-family: helvetica;
+    font-family: 'Poppins';
     margin: 0;
     padding: 0;
     border: none;
 }
 
 body {
-    background: url(/public/background.png);
+    background: #ddd;
 }
 
 p#trafiklab {
     position: fixed;
     bottom: 0;
     font-size: 3vh;
+    opacity: 0.7;
+    padding: 0.8vh 0.8vw;
+    color: #666;
+}
+p#trafiklab a {
+    color: #000;
+    text-decoration: none;
+}
+#time {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    font-size: 3vh;
+    padding: 0.8vh 0.8vw;
 }
