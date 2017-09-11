@@ -17,9 +17,10 @@
         } else {
           for (i = 1; i < group.length; i++) {
             text += group[i].LineNumber + ' ' + group[i].Destination + ' ' + group[i].DisplayTime;
-            if ((i + 1) !== group.length) { text+=' <span class="symbols">✱ ✱ ✱</span> '; }
+            if ((i + 1) !== group.length) { text+=' &nbsp; &nbsp; &nbsp; '; }
           };
         }
+        text += ' <span class="symbols"> * * * </span> ';
         callback(text);
       }
 

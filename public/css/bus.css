@@ -51,7 +51,7 @@
     background-color: #222;
 }
 .buslist>.bus:nth-child(even) {
-    background-color: #444;
+    background-color: #333;
 }
 .buslist > .bus {
     color: #fff;

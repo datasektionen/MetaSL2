@@ -8,7 +8,7 @@
 }
 
 body {
-    background: #ddd;
+    background: #222;
 }
 
 p#trafiklab {
@@ -20,7 +20,7 @@ p#trafiklab {
     color: #666;
 }
 p#trafiklab a {
-    color: #000;
+    color: #777;
     text-decoration: none;
 }
 #time {

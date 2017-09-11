@@ -5,13 +5,13 @@ div#tram {
 h3 {
     font-size: 10vh;
     text-align: center;
-    background-color: #242424;
+    background-color: #222;
     color: #fff;
 }
 
 div#tram>div {
     height: 9vh;
-    background-color: #444;
+    background-color: #333;
     padding: 0 1vw;
     position: relative; /*for positioning things inside of it */
 }

@@ -2,7 +2,7 @@ div#tunnelbana {
 }
 
 div.skylt {
-    background-color: #222;
+    background-color: #333;
     height: 40vh;
 }
 div#groupone {
@@ -22,7 +22,7 @@ div.skylttext {
 
 div.skylttext>* {
     color: #fff;
-    font-size: 13vh;
+    font-size: 11.5vh;
     vertical-align: middle;
 }
 
@@ -37,7 +37,7 @@ div.skylttext.top>p>span.time {
 }
 
 div.skylttext.bottom>div>span.symbols {
-    font-size: 8vh;
+    font-size: 13vh;
     vertical-align: middle;
     padding: 0 3vw;
 }
