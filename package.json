@@ -4,12 +4,14 @@
   "description": "...",
   "dependencies": {
     "express": "^4.12.3",
-    "socket.io": "^1.3.5"
+    "request": "^2.83.0",
+    "socket.io": "^2.0.3"
   },
   "engines": {
-  	"node": ">5.x"
+    "node": "8.x",
+    "npm": "5.x"
   },
   "scripts": {
-  	"start": "node index.js"
+    "start": "node index.js"
   }
 }
