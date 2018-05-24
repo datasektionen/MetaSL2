@@ -15,12 +15,11 @@
         if (group.length === 1) {
           text = group[0].PlatformMessage;
         } else {
-          for (i = 1; i < group.length; i++) {
+          for (i = 1; i < group.length && i <= 3; i++) {
             text += group[i].LineNumber + ' ' + group[i].Destination + ' ' + group[i].DisplayTime;
             if ((i + 1) !== group.length) { text+=' &nbsp; &nbsp; &nbsp; '; }
           };
         }
-        text += ' <span class="symbols"> * * * </span> ';
         callback(text);
       }
 

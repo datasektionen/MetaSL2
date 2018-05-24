@@ -77,7 +77,7 @@ var getRealtime = function(){
             io.emit('sltram', sldata.ResponseData.Trams);
             io.emit('stats', stats);
         } else {
-            console.log("some error with the data");
+            console.error("some error with the data", data);
         }
     });
 };
