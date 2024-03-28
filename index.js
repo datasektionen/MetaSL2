@@ -1,96 +1,122 @@
-var config = require('./config');
-var express = require('express');
-var app = express();
-var server= require('http').Server(app);
-var http = require('http');
-var io = require('socket.io')(server);
-var path = require('path');
-var request = require('request');
-require('./routes')(app);
+import express from "express";
+// TODO: replace with SSE.
+import { Server } from "socket.io";
+import { createServer } from "node:http";
 
-//----------- public folder
-app.use('/public', express.static(path.join(__dirname + '/public')));
+const app = express();
+const server = createServer(app);
+const io = new Server(server);
 
-//----------- SL OPTIONS
-var sloptionsrealtid = {
-    uri: 'http://api.sl.se/api2/realtimedeparturesV4.json?key=' + config.sl.realtidtoken + '&siteid=' + config.siteid + '&timewindow=60',
-    method: 'GET'
+let config = {
+  port: process.env.PORT || 3000,
+  refreshrate: process.env.REALREFRESH || 30, //Number of seconds between refresh
+  siteid: process.env.SITEID || 9204, //Tekniska högskolan siteid
 };
 
-//----------- stats
-var stats = {
-    latesttime:"",
-    requests:0,
-    nrofclients:0,
+app.use(
+  express.static(`${import.meta.dirname}/views`, { extensions: ["html"] }),
+);
+app.use("/public", express.static(`${import.meta.dirname}/public`));
+
+let stats = {
+  requests: 0,
+  nrofclients: 0,
 };
 
-//----------- get stuff
-var getstuff = function(options, callback) {
-    stats.requests++;
-    request(options, function (error, response, body) {
-        if(error) console.log('error:', error); 
-        //Only do things if the response is the expected json response
-        if (body && response.headers['content-type'].includes('application/json')) {
-            try {
-                var responseObject = JSON.parse(body);
-            } catch(e) {
-                console.log("response:" + body);
-                console.log("error: " + e);
-                console.log(e.stack);
-            }
-            callback(responseObject);
-        } else {
-            console.log("Error: not json data");
+let sldata = null;
+
+io.on("connection", (socket) => {
+  stats.nrofclients = io.engine.clientsCount;
+  if (sldata) {
+    socket.emit("slmetro", sldata.Metro);
+    socket.emit("slbus", sldata.Bus);
+    socket.emit("sltram", sldata.Tram);
+    socket.emit("stats", stats);
+  }
+  socket.on("disconnect", () => (stats.nrofclients = io.engine.clientsCount));
+});
+
+async function updateDepartures() {
+  stats.requests++;
+  const response = await fetch(
+    `https://transport.integration.sl.se/v1/sites/${config.siteid}/departures`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+  if (response.ok) {
+    const data = await response.json();
+
+    const busFour = [];
+    const busOther = [];
+    const metroNorth = [];
+    const metroSouth = [];
+    const tram = [];
+    data.departures.forEach((departure) => {
+      if (departure.line.transport_mode === "BUS") {
+        if (departure.line.id === 4 || departure.line.id === 94) {
+          busFour.push({
+            id: departure.line.id,
+            destination: departure.destination,
+            display: departure.display,
+          });
+        } else if (busOther.length < 10) {
+          busOther.push({
+            id: departure.line.id,
+            destination: departure.destination,
+            display: departure.display,
+          });
         }
+      } else if (departure.line.transport_mode === "METRO") {
+        if (departure.direction_code === 1 && metroNorth.length < 4) {
+          metroNorth.push({
+            id: departure.line.id,
+            destination: departure.destination,
+            display: departure.display,
+          });
+        } else if (metroSouth.length < 4) {
+          metroSouth.push({
+            id: departure.line.id,
+            destination: departure.destination,
+            display: departure.display,
+          });
+        }
+      } else if (departure.line.transport_mode === "TRAM") {
+        if (tram.length < 8) {
+          tram.push({
+            id: departure.line.id,
+            destination: departure.destination,
+            display: departure.display,
+          });
+        }
+      }
     });
-};
-
-//-----------
-var sldata = {};
-var sltraffic = {};
-
-//----------- IO
-io.on('connection', function(socket) {
-    stats.nrofclients = io.engine.clientsCount; 
-    if (sldata.ResponseData) { //On upstart there will be no data here.
-        socket.emit('slmetro', sldata.ResponseData.Metros);
-        socket.emit('slbus', sldata.ResponseData.Buses);
-        socket.emit('sltram', sldata.ResponseData.Trams);
-        socket.emit('stats', stats);
-        //socket.emit('sltrafficinfo', sltraffic);
+    sldata = {
+      Bus: {
+        four: busFour,
+        other: busOther,
+      },
+      Metro: {
+        north: metroNorth,
+        south: metroSouth,
+      },
+      Tram: tram,
     };
-    socket.on('disconnect', function() {
-        stats.nrofclients = io.engine.clientsCount;
-    });
-});
+    io.emit("slbus", sldata.Bus);
+    io.emit("slmetro", sldata.Metro);
+    io.emit("sltram", sldata.Tram);
+    io.emit("stats", stats);
+  } else {
+    console.error("Error fetching data", response);
+  }
+}
 
-//----------- Realtid
-var getRealtime = function(){
-    getstuff(sloptionsrealtid, function(data) {
-        //Update the latest succesfull requests time.
-        if (data.ResponseData && data.ResponseData.LatestUpdate
-            && !data.ResponseData.LatestUpdate.includes('1970')) {
-            stats.latesttime = data.ResponseData.LatestUpdate;
-            sldata = data;
-            io.emit('slmetro', sldata.ResponseData.Metros);
-            io.emit('slbus', sldata.ResponseData.Buses);
-            io.emit('sltram', sldata.ResponseData.Trams);
-            io.emit('stats', stats);
-        } else {
-            console.error("some error with the data", data);
-        }
-    });
-};
+setInterval(updateDepartures, 1000 * config.refreshrate); //Refreshrate is in seconds.
 
-setInterval(getRealtime, 1000 * config.refreshrate.realtid); //Refreshrate is in seconds.
-getRealtime();
+await updateDepartures();
 
-process.on('uncaughtException', function globalErrorCatch(error, p) {
-    console.error(error);
-    console.error(error.stack);
-});
-
-//---------
-server.listen(config.port, function(){
-    console.log('listening on *:' + config.port);
+server.listen(config.port, () => {
+  console.log(`listening on *:${config.port}`);
 });

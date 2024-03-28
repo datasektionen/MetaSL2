@@ -6,30 +6,32 @@
     <link rel="stylesheet" href="/public/css/common.css">
     <link rel="stylesheet" href="/public/css/metro.css">
     <script>
-      var getTopText = function(group, callback) {
-        var text = '<span class="dest">' + group[0].LineNumber + ' ' +  group[0].Destination + '</span><span class="time">' + group[0].DisplayTime + '</span>';
-        callback(text); 
-      }
-      var getBottomText = function(group, callback) {
-        var text = '';
-        if (group.length === 1) {
-          text = group[0].PlatformMessage;
-        } else {
-          for (i = 1; i < group.length && i <= 3; i++) {
-            text += group[i].LineNumber + ' ' + group[i].Destination + ' ' + group[i].DisplayTime;
-            if ((i + 1) !== group.length) { text+=' &nbsp; &nbsp; &nbsp; '; }
-          };
+      let latestfetch = new Date();
+      const socket = io();
+      socket.on('slmetro', (metro) => {
+        latestfetch = new Date();
+        document.getElementById("g1tcontent").innerHTML = `<span class='dest'>${metro.north[0].id} ${metro.north[0].destination}</span><span class='time'>${metro.north[0].display}</span>`;
+        document.getElementById("g2tcontent").innerHTML = `<span class='dest'>${metro.south[0].id} ${metro.south[0].destination}</span><span class='time'>${metro.south[0].display}</span>`;
+        let northbottom = '';
+        let southbottom = '';
+        for (i = 1; i < Math.min(metro.north.length, 4); i++) {
+          northbottom += `${metro.north[i].id} ${metro.north[i].destination} ${metro.north[i].display}`;
+          if (i + 1 !== metro.north.length) {
+             northbottom += "&nbsp; &nbsp; &nbsp";
+          }
         }
-        callback(text);
-      }
+        for (i = 1; i < Math.min(metro.south.length, 4); i++) {
+          southbottom += `${metro.south[i].id} ${metro.south[i].destination} ${metro.south[i].display}`;
+          if (i + 1 !== metro.south.length) {
+             southbottom += "&nbsp; &nbsp; &nbsp";
+          }
+        }
+        document.getElementById("g1bcontent").innerHTML = northbottom;
+        document.getElementById("g2bcontent").innerHTML = southbottom;
+      });
 
-      var socket = io();
-      //TODO: Improve the time difference code as it is relient of being in the correct time zone now...
-      var latestfetch = new Date();
       var updateTime = function() {
-        var current = new Date();
-        //console.log(latestfetch);
-        //console.log(current);
+        const current = new Date();
         var diff = Math.round(((current-latestfetch)/1000));
         var timeelement = document.getElementById("time");
         if (timeelement) {
@@ -63,54 +65,7 @@
           }
         }
       }
-      socket.on('stats', function(stats) {
-        latestfetch = new Date(stats.latesttime);
-        updateTime();
-      });
       setInterval(updateTime, 1000);
-
-
-      var groupone = [];
-      var grouptwo = [];
-      socket.on('slmetro', function(metros) {
-        console.log(metros);
-        //Parse out the data.
-        var groupone = [];
-        var grouptwo = [];
-        for (i = 0; i < metros.length; i++) {
-          //console.log(metros[i].Destination + ' ' + metros[i].DisplayTime);
-
-          if (metros[i].JourneyDirection === 1) { //Mot Mörby Centrum
-            groupone.push(metros[i]);
-          } else { //Mot T-centralen
-            grouptwo.push(metros[i]);
-          }
-        }
-        //Now update the displays.
-        getTopText(groupone, function(text) {
-          document.getElementById("g1tcontent").innerHTML = text;
-        });
-        getTopText(grouptwo, function(text) {
-          document.getElementById("g2tcontent").innerHTML = text;
-        });
-        getBottomText(groupone, function(text) {
-          document.getElementById("g1bcontent").innerHTML = text;
-        });
-        getBottomText(grouptwo, function(text) {
-          document.getElementById("g2bcontent").innerHTML = text;
-        });
-      });
-
-      socket.on('sltrafficinfo', function(trafficinfo) {
-        //console.log(trafficinfo.TrafficTypes);
-        //parse out the data...
-
-        for (i = 0; i < trafficinfo.TrafficTypes.length; i++) {
-          if (trafficinfo.TrafficTypes[i].Type === "metro") {
-            //console.log(trafficinfo.TrafficTypes[i]);
-          }
-        }
-      });
     </script>
   </head>
   <body>
