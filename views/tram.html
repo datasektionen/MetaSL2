@@ -9,7 +9,7 @@
       const socket = io();
       socket.on('sltram', (tram) => {
         let tramhtml = '<h3> Roslagsbanan </h3>'
-        tram.foEach(tram) => {
+        tram.forEach((tram) => {
           tramhtml += `<div><span class='linenr'>${tram.id}</span><span class='dest'>${tram.destination}</span> <span class='time'>${tram.display}</span></div>`;
         });
         document.getElementById("tram").innerHTML = tramhtml;
@@ -28,6 +28,5 @@
       <div><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></div>
       <div><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></div>
     </div>
-    <p id="trafiklab">Data provided by <a href="http://trafiklab.se">Trafiklab</a></p>
   </body>
 </html>
