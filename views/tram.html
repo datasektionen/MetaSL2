@@ -6,13 +6,12 @@
     <link rel="stylesheet" href="/public/css/common.css">
     <link rel="stylesheet" href="/public/css/tram.css">
     <script>
-      var socket = io();
-      socket.on('sltram', function(trams) {
-        //console.log(trams);
-        var tramhtml = '<h3> Roslagsbanan </h3>'
-        for(var i = 0; i < trams.length && i < 8; i++) {
-          tramhtml += "<div><span class='linenr'>" + trams[i].LineNumber + "</span><span class='dest'>" + trams[i].Destination + "</span> <span class='time'>" + trams[i].DisplayTime + "</span></div>";
-        }
+      const socket = io();
+      socket.on('sltram', (tram) => {
+        let tramhtml = '<h3> Roslagsbanan </h3>'
+        tram.foEach(tram) => {
+          tramhtml += `<div><span class='linenr'>${tram.id}</span><span class='dest'>${tram.destination}</span> <span class='time'>${tram.display}</span></div>`;
+        });
         document.getElementById("tram").innerHTML = tramhtml;
       });
     </script>

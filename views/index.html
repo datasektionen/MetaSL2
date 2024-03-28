@@ -4,10 +4,10 @@
     <title> Metasl2.0 </title>
     <script src='/socket.io/socket.io.js'></script>
     <script>
-      var socket = io();
-      socket.on('stats', function(stats) {
+      const socket = io();
+      socket.on('stats', (stats) => {
         document.getElementById('requests').innerHTML = stats.requests;
-        document.getElementById('time').innerHTML = stats.latesttime;
+        document.getElementById('time').innerHTML = new Date();
         document.getElementById('nrofclients').innerHTML = stats.nrofclients;
       });
 
