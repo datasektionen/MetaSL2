@@ -6,10 +6,8 @@
     <link rel="stylesheet" href="/public/css/common.css">
     <link rel="stylesheet" href="/public/css/metro.css">
     <script>
-      let latestfetch = new Date();
       const socket = io();
       socket.on('slmetro', (metro) => {
-        latestfetch = new Date();
         document.getElementById("g1tcontent").innerHTML = `<span class='dest'>${metro.north[0].id} ${metro.north[0].destination}</span><span class='time'>${metro.north[0].display}</span>`;
         document.getElementById("g2tcontent").innerHTML = `<span class='dest'>${metro.south[0].id} ${metro.south[0].destination}</span><span class='time'>${metro.south[0].display}</span>`;
         let northbottom = '';
@@ -29,43 +27,6 @@
         document.getElementById("g1bcontent").innerHTML = northbottom;
         document.getElementById("g2bcontent").innerHTML = southbottom;
       });
-
-      var updateTime = function() {
-        const current = new Date();
-        var diff = Math.round(((current-latestfetch)/1000));
-        var timeelement = document.getElementById("time");
-        if (timeelement) {
-          if (diff < 10000) {
-            timeelement.innerHTML="Data is <span id='timebehind'>30 seconds</span> old";
-          } else {
-            //The api is malfunctioning tell the user that the time is w
-            timeelement.innerHTML="Api is malfunctioning! No bus and tram data!";
-          }
-          if (diff > 100) {
-            timeelement.style.visibility="visible";
-            timeelement.style.color="red";
-          } else if (diff > 45){
-            timeelement.style.visibility="visible";
-            timeelement.style.color="orange";
-          } else if (diff > 0){
-            timeelement.style.visibility="visible";
-            timeelement.style.color="black";
-          }
-        }
-        var element = document.getElementById("timebehind");
-        if (element) {
-          if (diff > 3600) {
-            var h = parseInt(diff / 60 / 60 + 0.5)
-            element.innerHTML = h + ' ' + (h > 1 ? 'hours' : 'hour');
-          } else if (diff > 60) {
-            var h = parseInt(diff / 60 + 0.5)
-            element.innerHTML = h + ' ' + (h > 1 ? 'minutes' : 'minute');
-          } else {
-            element.innerHTML = diff + ' ' + (diff > 1 ? 'seconds' : 'second');
-          }
-        }
-      }
-      setInterval(updateTime, 1000);
     </script>
   </head>
   <body>
@@ -101,8 +62,5 @@
         </div>
       </div>
     </div>
-
-    <p id="trafiklab">Data provided by <a href="http://trafiklab.se">Trafiklab</a></p>
-    <div id="time">Data is <span id="timebehind">30</span>s old</div>
   </body>
 </html>
