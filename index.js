@@ -1,11 +1,9 @@
-import express from "express";
+import sirv from "sirv";
+import polka from "polka";
 // TODO: replace with SSE.
 import { Server } from "socket.io";
-import { createServer } from "node:http";
 
-const app = express();
-const server = createServer(app);
-const io = new Server(server);
+const app = polka();
 
 let config = {
   port: process.env.PORT || 3000,
@@ -13,10 +11,14 @@ let config = {
   siteid: process.env.SITEID || 9204, //Tekniska högskolan siteid
 };
 
-app.use(
-  express.static(`${import.meta.dirname}/views`, { extensions: ["html"] }),
-);
-app.use("/public", express.static(`${import.meta.dirname}/public`));
+app
+  .use("/public", sirv("public"))
+  .use("/", sirv("views"))
+  .listen(config.port, () => {
+    console.log(`listening on *:${config.port}`);
+  });
+
+const io = new Server(app.server);
 
 let stats = {
   requests: 0,
@@ -116,7 +118,3 @@ async function updateDepartures() {
 setInterval(updateDepartures, 1000 * config.refreshrate); //Refreshrate is in seconds.
 
 await updateDepartures();
-
-server.listen(config.port, () => {
-  console.log(`listening on *:${config.port}`);
-});
