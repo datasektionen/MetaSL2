@@ -4,8 +4,7 @@
   "description": "...",
   "dependencies": {
     "polka": "^0.5.2",
-    "sirv": "^2.0.4",
-    "socket.io": "^4"
+    "sirv": "^2.0.4"
   },
   "engines": {
     "node": "^21"

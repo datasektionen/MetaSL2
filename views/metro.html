@@ -2,25 +2,25 @@
 <html>
   <head>
     <title> Metasl2.0 - Metro</title>
-    <script src='/socket.io/socket.io.js'></script>
     <link rel="stylesheet" href="/public/css/common.css">
     <link rel="stylesheet" href="/public/css/metro.css">
     <script>
-      const socket = io();
-      socket.on('slmetro', (metro) => {
-        document.getElementById("g1tcontent").innerHTML = `<span class='dest'>${metro.north[0].id} ${metro.north[0].destination}</span><span class='time'>${metro.north[0].display}</span>`;
-        document.getElementById("g2tcontent").innerHTML = `<span class='dest'>${metro.south[0].id} ${metro.south[0].destination}</span><span class='time'>${metro.south[0].display}</span>`;
+      const events = new EventSource('/subscribe');
+      events.addEventListener('slmetro', (metro) => {
+        const data = JSON.parse(metro.data);
+        document.getElementById("g1tcontent").innerHTML = `<span class='dest'>${data.north[0].id} ${data.north[0].destination}</span><span class='time'>${data.north[0].display}</span>`;
+        document.getElementById("g2tcontent").innerHTML = `<span class='dest'>${data.south[0].id} ${data.south[0].destination}</span><span class='time'>${data.south[0].display}</span>`;
         let northbottom = '';
         let southbottom = '';
-        for (i = 1; i < Math.min(metro.north.length, 4); i++) {
-          northbottom += `${metro.north[i].id} ${metro.north[i].destination} ${metro.north[i].display}`;
-          if (i + 1 !== metro.north.length) {
+        for (i = 1; i < Math.min(data.north.length, 4); i++) {
+          northbottom += `${data.north[i].id} ${data.north[i].destination} ${data.north[i].display}`;
+          if (i + 1 !== data.north.length) {
              northbottom += "&nbsp; &nbsp; &nbsp";
           }
         }
-        for (i = 1; i < Math.min(metro.south.length, 4); i++) {
-          southbottom += `${metro.south[i].id} ${metro.south[i].destination} ${metro.south[i].display}`;
-          if (i + 1 !== metro.south.length) {
+        for (i = 1; i < Math.min(data.south.length, 4); i++) {
+          southbottom += `${data.south[i].id} ${data.south[i].destination} ${data.south[i].display}`;
+          if (i + 1 !== data.south.length) {
              southbottom += "&nbsp; &nbsp; &nbsp";
           }
         }

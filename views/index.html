@@ -2,13 +2,13 @@
 <html>
   <head>
     <title> Metasl2.0 </title>
-    <script src='/socket.io/socket.io.js'></script>
     <script>
-      const socket = io();
-      socket.on('stats', (stats) => {
-        document.getElementById('requests').innerHTML = stats.requests;
+      const events = new EventSource('/subscribe');
+      events.addEventListener('stats', (stats) => {
+        const data = JSON.parse(stats.data);
+        document.getElementById('requests').innerHTML = data.requests;
         document.getElementById('time').innerHTML = new Date();
-        document.getElementById('nrofclients').innerHTML = stats.nrofclients;
+        document.getElementById('nrofclients').innerHTML = data.nrofclients;
       });
 
     </script>
