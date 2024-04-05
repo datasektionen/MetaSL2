@@ -24,9 +24,9 @@ app
   .use("/", sirv("views"))
   .use("/subscribe", (req, res) => {
     res.writeHead(200, {
-      "Content-Type": "text/event-stream",
-      "Cache-Control": "no-cache",
-      Connection: "keep-alive",
+      "access-control-allow-origin": "*",
+      "content-type": "text/event-stream",
+      "cache-control": "no-cache",
     });
     function slMetroHandler() {
       res.write("event: slmetro\n");
