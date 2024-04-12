@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "...",
   "dependencies": {
-    "express": "^4.12.3",
-    "socket.io": "^4"
+    "polka": "^0.5.2",
+    "sirv": "^2.0.4"
   },
   "engines": {
     "node": "^21"

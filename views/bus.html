@@ -2,18 +2,18 @@
 <html>
   <head>
     <title> Metasl2.0 - Bus </title>
-    <script src='/socket.io/socket.io.js'></script>
     <link rel="stylesheet" href="/public/css/common.css">
     <link rel="stylesheet" href="/public/css/bus.css">
     <script>
-      const socket = io();
-      socket.on('slbus', (bus) => {
+      const events = new EventSource('/subscribe');
+      events.addEventListener('slbus', (bus) => {
+        const data = JSON.parse(bus.data);
         let fourhtml = '<h3> 4:an </h3>';
         let otherhtml = '<h3> Others </h3>';
-        bus.four.forEach((bus) => {
+        data.four.forEach((bus) => {
           fourhtml += `<div class='bus'><span class='busnr'>${bus.id}</span><span class='dest'>${bus.destination}</span><span class='bustime'>${bus.display}</span></div>`;
         });
-        bus.other.forEach((bus) => {
+        data.other.forEach((bus) => {
           otherhtml += `<div class='bus'><span class='busnr'>${bus.id}</span><span class='dest'>${bus.destination}</span><span class='bustime'>${bus.display}</span></div>`;
         });
         document.getElementById("bus4").innerHTML = fourhtml;

@@ -1,22 +1,16 @@
-import express from "express";
-// TODO: replace with SSE.
-import { Server } from "socket.io";
-import { createServer } from "node:http";
+import sirv from "sirv";
+import polka from "polka";
+import { EventEmitter } from "node:events";
 
-const app = express();
-const server = createServer(app);
-const io = new Server(server);
+const departureEmitter = new EventEmitter();
+
+const app = polka();
 
 let config = {
   port: process.env.PORT || 3000,
   refreshrate: process.env.REALREFRESH || 30, //Number of seconds between refresh
   siteid: process.env.SITEID || 9204, //Tekniska högskolan siteid
 };
-
-app.use(
-  express.static(`${import.meta.dirname}/views`, { extensions: ["html"] }),
-);
-app.use("/public", express.static(`${import.meta.dirname}/public`));
 
 let stats = {
   requests: 0,
@@ -25,16 +19,61 @@ let stats = {
 
 let sldata = null;
 
-io.on("connection", (socket) => {
-  stats.nrofclients = io.engine.clientsCount;
-  if (sldata) {
-    socket.emit("slmetro", sldata.Metro);
-    socket.emit("slbus", sldata.Bus);
-    socket.emit("sltram", sldata.Tram);
-    socket.emit("stats", stats);
-  }
-  socket.on("disconnect", () => (stats.nrofclients = io.engine.clientsCount));
-});
+app
+  .use("/public", sirv("public"))
+  .use("/", sirv("views"))
+  .use("/subscribe", (req, res) => {
+    res.writeHead(200, {
+      "access-control-allow-origin": "*",
+      "content-type": "text/event-stream",
+      "cache-control": "no-cache",
+    });
+    function slMetroHandler() {
+      res.write("event: slmetro\n");
+      res.write(`data: ${JSON.stringify(sldata.Metro)}\n\n`);
+    }
+    function slBusHandler() {
+      res.write("event: slbus\n");
+      res.write(`data: ${JSON.stringify(sldata.Bus)}\n\n`);
+    }
+    function slTramHandler() {
+      res.write("event: sltram\n");
+      res.write(`data: ${JSON.stringify(sldata.Tram)}\n\n`);
+    }
+    function statsHandler() {
+      res.write("event: stats\n");
+      res.write(`data: ${JSON.stringify(stats)}\n\n`);
+    }
+
+    stats.nrofclients++;
+    if (sldata) {
+      res.write("event: slmetro\n");
+      res.write(`data: ${JSON.stringify(sldata.Metro)}\n\n`);
+      res.write("event: slbus\n");
+      res.write(`data: ${JSON.stringify(sldata.Bus)}\n\n`);
+      res.write("event: sltram\n");
+      res.write(`data: ${JSON.stringify(sldata.Tram)}\n\n`);
+      res.write("event: stats\n");
+      res.write(`data: ${JSON.stringify(stats)}\n\n`);
+    }
+
+    departureEmitter.on("slmetro", slMetroHandler);
+    departureEmitter.on("slbus", slBusHandler);
+    departureEmitter.on("sltram", slTramHandler);
+    departureEmitter.on("stats", statsHandler);
+
+    req.once("close", () => {
+      departureEmitter.off("slmetro", slMetroHandler);
+      departureEmitter.off("slbus", slBusHandler);
+      departureEmitter.off("sltram", slTramHandler);
+      departureEmitter.off("stats", statsHandler);
+      res.end();
+      stats.nrofclients--;
+    });
+  })
+  .listen(config.port, () => {
+    console.log(`listening on *:${config.port}`);
+  });
 
 async function updateDepartures() {
   stats.requests++;
@@ -104,10 +143,10 @@ async function updateDepartures() {
       },
       Tram: tram,
     };
-    io.emit("slbus", sldata.Bus);
-    io.emit("slmetro", sldata.Metro);
-    io.emit("sltram", sldata.Tram);
-    io.emit("stats", stats);
+    departureEmitter.emit("slbus");
+    departureEmitter.emit("slmetro");
+    departureEmitter.emit("sltram");
+    departureEmitter.emit("stats");
   } else {
     console.error("Error fetching data", response);
   }
@@ -116,7 +155,3 @@ async function updateDepartures() {
 setInterval(updateDepartures, 1000 * config.refreshrate); //Refreshrate is in seconds.
 
 await updateDepartures();
-
-server.listen(config.port, () => {
-  console.log(`listening on *:${config.port}`);
-});

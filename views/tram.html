@@ -2,14 +2,14 @@
 <html>
   <head>
     <title> Metasl2.0 - Tram</title>
-    <script src='/socket.io/socket.io.js'></script>
     <link rel="stylesheet" href="/public/css/common.css">
     <link rel="stylesheet" href="/public/css/tram.css">
     <script>
-      const socket = io();
-      socket.on('sltram', (tram) => {
+      const events = new EventSource('/subscribe');
+      events.addEventListener('sltram', (tram) => {
+        const data = JSON.parse(tram.data);
         let tramhtml = '<h3> Roslagsbanan </h3>'
-        tram.forEach((tram) => {
+        data.forEach((tram) => {
           tramhtml += `<div><span class='linenr'>${tram.id}</span><span class='dest'>${tram.destination}</span> <span class='time'>${tram.display}</span></div>`;
         });
         document.getElementById("tram").innerHTML = tramhtml;
