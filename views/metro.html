@@ -26,6 +26,7 @@
         }
         document.getElementById("g1bcontent").innerHTML = northbottom;
         document.getElementById("g2bcontent").innerHTML = southbottom;
+        document.querySelector("#last-update").innerText = new Date().toLocaleString("sv-SE", { timeZone: "Europe/Stockholm", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
       });
     </script>
   </head>
@@ -61,6 +62,9 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="updated-at">
+      Datan hämtades senast <span id="last-update"></span>
     </div>
   </body>
 </html>

@@ -13,6 +13,7 @@
           tramhtml += `<div><span class='linenr'>${tram.id}</span><span class='dest'>${tram.destination}</span> <span class='time'>${tram.display}</span></div>`;
         });
         document.getElementById("tram").innerHTML = tramhtml;
+        document.querySelector("#last-update").innerText = new Date().toLocaleString("sv-SE", { timeZone: "Europe/Stockholm", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
       });
     </script>
   </head>
@@ -27,6 +28,9 @@
       <div><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></div>
       <div><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></div>
       <div><span class='linenr'>42</span><span class='dest'> Täby Någonstans </span> <span class='time'> 42min </span></div>
+    </div>
+    <div class="updated-at">
+      Datan hämtades senast <span id="last-update"></span>
     </div>
   </body>
 </html>

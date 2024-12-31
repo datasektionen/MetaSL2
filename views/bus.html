@@ -18,6 +18,7 @@
         });
         document.getElementById("bus4").innerHTML = fourhtml;
         document.getElementById("busother").innerHTML = otherhtml;
+        document.querySelector("#last-update").innerText = new Date().toLocaleString("sv-SE", { timeZone: "Europe/Stockholm", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
       });
     </script>
   </head>
@@ -29,6 +30,9 @@
       <div id='busother' class='buslist'>
         <h3> Other </h3>
       </div>
+    </div>
+    <div class="updated-at">
+      Datan hämtades senast <span id="last-update"></span>
     </div>
   </body>
 </html>
